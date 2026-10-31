@@ -1,0 +1,177 @@
+\documentclass[12pt,twoside,final]{article}
+\usepackage{comment}
+\usepackage{adjustbox}
+\usepackage[center]{caption}
+\usepackage[portuguese,brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+\RequirePackage{etex}
+\usepackage{hyperref,ae}
+\usepackage{pslatex}
+\usepackage{amssymb,fancyhdr,fancybox,epsfig,psfrag,amsmath,tabularx}
+\usepackage[paperwidth=8.5in,paperheight=11in,hmargin={25mm,20mm},vmargin={20mm,20mm}]{geometry}
+\usepackage{graphicx, url}
+\usepackage{subfigure,tocloft}
+\usepackage{changepage}
+%\usepackage{subcaption}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools} 
+\usepackage{siunitx}
+\usepackage{pgfplots}
+\usepackage{etoolbox}
+\usepgfplotslibrary{dateplot}
+\pgfplotsset{compat=1.14}
+%\usepackage{filecontents}
+\usepackage{pgfplotstable}
+\pgfplotsset{table/search path={csv}}
+\usepackage{multirow}
+\usepackage[lined,ruled,vlined,linesnumbered,portuguese]{algorithm2e}
+\usepackage{ulem,soul}
+\usepackage[section]{placeins}
+\usepackage[dvips]{lscape} %rotacionar
+\usepackage{setspace}
+
+\usepackage{listings}
+\usepackage{needspace}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    columns=fullflexible,
+    keepspaces=true,
+    breaklines=true,
+    breakatwhitespace=true,
+    showstringspaces=false,
+    aboveskip=10pt,
+    belowskip=10pt
+}
+\renewcommand{\lstlistingname}{Código}
+\renewcommand{\lstlistlistingname}{Lista de Códigos}
+\usepackage{wrapfig, graphics,multirow}
+\usepackage{array}
+\usepackage{pdfpages}
+\usepackage{pdflscape}
+\usetikzlibrary{matrix}
+\usepackage{enumitem,comment}  
+\usepackage[titletoc,title]{appendix}
+\renewcommand{\cfttoctitlefont}{\hspace*{\fill}\large\bfseries\MakeUppercase}
+\renewcommand{\cftaftertoctitle}{\hspace*{\fill}}
+\renewcommand{\cftlottitlefont}{\hspace*{\fill}\large  \bfseries}
+\renewcommand{\cftafterlottitle}{\hspace*{\fill}}
+\renewcommand{\cftloftitlefont}{\hspace*{\fill}\large \bfseries}
+\renewcommand{\cftafterloftitle}{\hspace*{\fill}}
+\usepackage[Lenny]{fncychap}
+\setlength{\headheight}{15pt}
+\setlength{\parindent}{1.2cm}
+
+\usepackage{xcolor}
+\definecolor{azure}{rgb}{0.0, 0.5, 1.0}
+\newcommand{\blue}[1]{\textcolor{azure}{#1}}
+\newcommand{\strikeRed}[1]{\textcolor{red}{\sout{#1}}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\green}[1]{\textcolor{green}{#1}}
+
+
+\usepackage{longtable}
+\usepackage{rotating}
+%\usepackage[dvipsnames]{xcolor}
+\usepackage{lscape}
+
+%\usepackage[ngerman]{babel}
+\usepackage[num,abnt-repeated-author-omit=yes,abnt-emphasize = bf]{abntex2cite}
+\citebrackets[]
+\renewcommand{\sectionmark}[1]{\markright{\thesection. \ #1}}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[RE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\hyphenation{pro-fis-si-o-nais}
+%\hyphenation{ín-di-ce}
+
+
+\newcolumntype{P}[1]{>{\centering\arraybackslash}P{#1}}
+
+
+\renewcommand{\listtablename}{LISTA TABELAS} 
+\renewcommand{\listfigurename}{LISTA  FIGURAS}
+
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+
+
+\usepackage{color, colortbl}
+\newcommand{\dbh}[1]{\textcolor{blue}{#1}}
+\newcommand{\bac}[1]{\textcolor{red}{#1}}
+
+\newenvironment{widerequation}{%
+    \begin{adjustwidth}{-3cm}{-1.5cm}\begin{equation}}
+    {\end{equation}\end{adjustwidth}}
+
+
+\begin{document}
+
+
+\thispagestyle{empty}
+
+%PPC em português
+\input{capaNew}
+\newpage
+
+%=============================== lista de tabelas e figuras ==========================
+{\thispagestyle{empty}
+\renewcommand{\listfigurename}{LISTA DE FIGURAS}
+
+\listoffigures}
+\newpage
+
+{\thispagestyle{empty}
+\renewcommand{\listtablename}{LISTA DE TABELAS}
+\listoftables}
+\newpage
+
+\input{Siglas}
+\clearpage
+
+\input{Simbolos}
+
+\clearpage
+
+\newpage
+
+%=============================== sumário =============================================
+
+\tableofcontents
+
+\newpage
+
+\pagestyle{fancy}
+\pagenumbering{arabic}
+\onehalfspacing
+
+\newpage
+%=============================== capítulos ==========================================
+
+\include{cap1}          % Introdução
+
+\include{cap2}          % Fundamentação Teórica
+\include{fundamentos_reg_simbolica}
+\include{cap3}          % Regressão Simbólica
+
+\include{cap4}          % Ferramentas e Tecnologias
+
+\include{metodologia}   % Metodologia
+\include{Exp_e_resultados}
+
+\include{resultados}    % Experimentos e Resultados
+
+\include{conclusoes}    % Conclusão
+
+
+{
+\thispagestyle{empty}
+\renewcommand{\refname}{REFERÊNCIAS}
+\bibliography{bibliografia}
+}
+
+\newpage
+
+\end{document}

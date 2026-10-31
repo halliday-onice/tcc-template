@@ -1,0 +1,45 @@
+\babel@toc {brazil}{}\relax 
+\contentsline {section}{\numberline {1}Introdução}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Tema}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Justificativa}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Delimitação}{2}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Objetivos}{2}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}Descrição resumida da metodologia}{2}{subsection.1.5}%
+\contentsline {subsection}{\numberline {1.6}Descrição}{2}{subsection.1.6}%
+\contentsline {section}{\numberline {2}Fundamentos da precificação de opções}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}$\sigma $-álgebra}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Espaço de Probabilidade}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Filtração}{5}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Martingal}{5}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Movimento Browniano}{6}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Processos de Itô}{7}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Integral de Itô}{7}{subsection.2.7}%
+\contentsline {subsection}{\numberline {2.8}Movimento Browniano Geométrico}{8}{subsection.2.8}%
+\contentsline {subsection}{\numberline {2.9}Método de Monte Carlo}{9}{subsection.2.9}%
+\contentsline {subsection}{\numberline {2.10}Modelo de Black--Scholes}{10}{subsection.2.10}%
+\contentsline {subsection}{\numberline {2.11}Limitações do modelo de Black--Scholes}{13}{subsection.2.11}%
+\contentsline {subsection}{\numberline {2.12}Gregas: Sensibilidades do modelo de Black--Scholes}{14}{subsection.2.12}%
+\contentsline {paragraph}{Delta}{14}{section*.5}%
+\contentsline {paragraph}{Gama}{15}{section*.6}%
+\contentsline {paragraph}{Teta}{15}{section*.7}%
+\contentsline {paragraph}{Vega}{15}{section*.8}%
+\contentsline {paragraph}{Rho}{15}{section*.9}%
+\contentsline {subsection}{\numberline {2.13}Aproximações locais e expansões assintóticas do modelo de Black--Scholes}{16}{subsection.2.13}%
+\contentsline {section}{\numberline {3}Fundamentos de regressão símbólica}{18}{section.3}%
+\contentsline {section}{\numberline {4}Metodologia}{19}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Implementação analítica do Modelo de Black--Scholes e das Gregas}{19}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Análise Univariada de parâmetros}{23}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Configuração dos Experimentos Univariados}{23}{subsubsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.3}Configuração da Regressão Simbólica}{29}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Procedimento Experimental}{29}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Métricas de Avaliação}{29}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Resultados e Discussão}{30}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Resultados dos Experimentos Univariados}{30}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Tempo Restante até o Vencimento ($\tau $)}{30}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Taxa Livre de Risco ($r$)}{30}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Volatilidade ($\sigma $)}{30}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Preço do Ativo Subjacente ($S$)}{30}{subsection.5.5}%
+\contentsline {section}{\numberline {6}Discussão Comparativa dos Experimentos Univariados}{30}{section.6}%
+\contentsline {section}{\numberline {7}Experimentos Multivariados}{30}{section.7}%
+\contentsline {section}{\numberline {8}Síntese dos Resultados e Limitações}{30}{section.8}%
+\contentsline {section}{\numberline {9} Conclusões}{31}{section.9}%

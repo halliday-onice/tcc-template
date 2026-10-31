@@ -1,0 +1,825 @@
+\section{Fundamentos da precificação de opções}
+\label{chapter:chapterName}
+
+A dinâmica de preços do mercado financeiro é regida por diferentes e variados fatores. A modelagem do comportamento dos ativos financeiros busca representar a evolução de grandezas cujo comportamento futuro está sujeito à incerteza, como preços de ações, taxas de juros e volatilidade. No mercado de derivativos, essa característica assume particular importância, uma vez que o valor desses instrumentos depende da dinâmica de outro ativo, chamado de ativo subjacente.
+
+A avaliação desses contratos depende, portanto, do comportamento do preço do ativo subjacente ao longo do tempo. Como sua evolução futura é de uma dinâmica estocástica uma carteira de \textit{hedge} visa mitigar os efeitos dessas oscilações ajustando dinâmicamente a proporção de opções presentes na carteira. É nesse contexto que o modelo de Black--Scholes foi concebido e para ter o entendimento completo a formalização de toda essa estrutura matemática é necessária. Os processos estocásticos fornecem as ferramentas ao descrever a evolução temporal de variáveis aleatórias e constituem a base matemática de diversos modelos empregados em finanças quantitativas, incluindo o de Black--Scholes.
+
+Uma opção consiste em um contrato derivativo cujo valor está associado
+a um ativo subjacente e que concede ao titular o direito de comprá-lo
+ou vendê-lo por um preço de exercício previamente definido, denominado \textit{strike price}, até ou em uma data de vencimento especificada \cite{blackscholes1973}. Entre os principais tipos de opções estão as opções de compra (\textit{call}) e as opções de venda (\textit{put}). 
+Entre os modelos desenvolvidos para a precificação de derivativos, destaca-se o modelo de Black--Scholes, formulado a partir dos trabalhos de Fischer Black e Myron Scholes e posteriormente desenvolvido por Robert Merton. Em sua formulação clássica, o modelo de Black--Scholes considera uma
+dinâmica estocástica para o preço do ativo subjacente compatível com o
+movimento browniano geométrico, a partir da qual é derivada a expressão
+de precificação da opção \cite{blackscholes1973}. A construção dessa formulação envolve conceitos da teoria da probabilidade e do cálculo estocástico, entre os quais espaço de probabilidade, $\sigma$-álgebra, filtração, movimento browniano, processos de Itô e Fórmula de Itô. Esses conceitos são apresentados abaixo de forma progressiva, até a obtenção da equação de Black--Scholes.
+\begin{itemize}
+    \item \textbf{\textit{Call} (Opção de Compra):} Confere ao seu detentor o direito, não a obrigação, de comprar um ativo financeiro pelo preço especificado em contrato.
+    \item \textbf{\textit{Put} (Opção de Venda):} Confere ao seu detentor o direito, não a obrigação, de vender um ativo financeiro pelo preço especificado em contrato.
+\end{itemize}
+
+A formulação matemática do modelo de Black--Scholes se apoia em conceitos da teoria da probabilidade, em teoria da medida e do cálculo estocástico que permitem representar, de forma rigorosa, a incerteza e a evolução temporal do preço de um ativo. Para compreender essa construção, é necessário introduzir algumas estruturas fundamentais, entre elas espaço de probabilidade, $\sigma$-álgebra, filtração, movimento browniano, processos de Itô e Fórmula de Itô. Esses elementos serão apresentados a seguir de forma encadeada, destacando o papel de cada um na construção do modelo.
+
+\subsection{$\sigma$-álgebra}
+
+Seja $\Omega$ um espaço amostral. Uma $\sigma$-álgebra é uma coleção
+$\mathcal{F}$ de subconjuntos de $\Omega$ que satisfaz determinadas
+propriedades de fechamento \cite{james2023}.:
+
+\begin{enumerate}
+    \item $\Omega \in \mathcal{F}$;
+    
+    \item $A \in \mathcal{F} \Rightarrow A^{c} \in \mathcal{F}$.
+
+    \item Se $A_j \in \mathcal{F}$ para todo $j \in \mathbb{N}$, então
+
+\begin{equation}
+\bigcup_{j \in \mathbb{N}} A_j \in \mathcal{F}
+\qquad \text{e} \qquad
+\bigcap_{j \in \mathbb{N}} A_j \in \mathcal{F}.
+\end{equation}
+\end{enumerate}
+
+Uma $\sigma$-álgebra é uma coleção de subconjuntos que contém o próprio espaço amostral e é fechada em relação à complementação e a uniões enumeráveis. A formalização dessa definição é a base para os eventos mensuráveis sobre o qual o modelo de Black--Scholes baseia o conceito de filtração, futuramente definido.
+Tomemos um exemplo aplicado as finanças quantitativas. Seja uma opção europeia de compra com preço de exercício $K$. Um evento relevante para a precificação é
+
+\begin{equation}
+A = \{S_T > K\},
+\end{equation}
+que representa a situação em que, no vencimento, o preço do ativo subjacente
+é superior ao preço de exercício. Para que seja possível atribuir uma
+probabilidade a esse evento, é necessário que $A$ pertença à
+$\sigma$-álgebra $\mathcal{F}$.
+
+Dessa forma, a $\sigma$-álgebra estabelece quais eventos associados à
+evolução do ativo podem ser tratados probabilisticamente no modelo.
+
+\subsection{Espaço de Probabilidade}
+
+Seja \(\Omega\) o espaço amostral associado a um experimento aleatório, isto é, o conjunto não vazio que reúne todos os resultados possíveis desse experimento. Em \(\Omega\), considera-se uma \(\sigma\)-álgebra \(\mathcal{F}\), formada por subconjuntos de \(\Omega\) aos quais podem ser atribuídas probabilidades.
+
+A partir dessas estruturas, define-se um espaço de probabilidade como a trinca 
+\begin{equation}
+(\Omega,\mathcal{F},P),
+\end{equation}
+em que \(\Omega\) é o espaço amostral, \(\mathcal{F}\) é uma \(\sigma\)-álgebra de subconjuntos de \(\Omega\) e \(P\) é uma medida de probabilidade definida sobre  $\mathcal{F}$ \cite{albani2025}.
+
+O espaço de probabilidade fornece a estrutura básica para descrever a aleatoriedade de um fenômeno. O espaço de probabilidade é o que fundamenta os incrementos aleatórios dwt na dinâmica do ativo. Também é necessário representar como a informação  de mercado disponível que se modifica à medida que novos eventos são observados.
+
+Nesse contexto, considera-se uma família \textbf{crescente} de $\sigma$-álgebras associadas a diferentes instantes, de modo a representar matematicamente a evolução das informações disponíveis ao longo do tempo. Essa família permite formalizar quais informações estão disponíveis em cada momento e implica no conceito de filtração.
+
+\subsection{Filtração}
+Seja um espaço de probabilidade
+$(\Omega,\mathcal{F},P)$ e um horizonte de tempo $T>0$.
+Uma \textbf{filtração} é uma família de $\sigma$-álgebras
+$(\mathcal{F}_t)_{t\in[0,T]}$, contidas em $\mathcal{F}$, tal que
+\begin{equation}
+\mathcal{F}_s \subseteq \mathcal{F}_t \subseteq \mathcal{F},
+\qquad
+0 \leq s \leq t \leq T.
+\end{equation}
+Intuitivamente, $\mathcal{F}_t$ representa o conjunto de informações
+disponíveis até o instante $t$ \cite{saporito2024}. A condição
+$\mathcal{F}_s \subseteq \mathcal{F}_t$, para $s \leq t$, expressa
+o fato de que, à medida que o tempo avança, novas informações podem
+ser incorporadas ao modelo, preservando-se aquelas que já estavam
+disponíveis.
+
+No contexto do mercado financeiro, uma filtração permite representar
+matematicamente a evolução da informação ao longo do tempo. Em um
+instante $t$, $\mathcal{F}_t$ pode conter as informações conhecidas
+sobre a trajetória do preço de um ativo até aquele momento. Dessa forma,
+o preço observado no presente pode depender das informações já
+disponíveis, enquanto valores futuros permanecem desconhecidos.
+
+A partir dessa estrutura, é possível considerar processos estocásticos adaptados à informação disponível em cada instante.
+Entre esses processos, destaca-se o movimento browniano, utilizado para representar variações aleatórias contínuas ao longo do tempo e que desempenha papel central na modelagem matemática de preços de ativos financeiros.
+
+\subsection{Martingal}
+
+Seja $\{X(t): t \geq 0\}$ um processo estocástico tal que
+
+\begin{equation}
+E\left(|X(t)|\right) < \infty
+\end{equation}
+
+para todo $t \geq 0$.
+
+Se $t \geq s \geq 0$ e
+
+\begin{equation}
+X(s) = E\left[X(t)\mid\mathcal{F}(s)\right]
+\end{equation}
+
+quase certamente, então o processo é denominado \textbf{martingal}.
+
+Ou seja, dado tudo o que se sabe até o instante $s$, o valor esperado
+futuro em $t$ é igual ao valor atual $X(s)$. Isso significa que um
+martingal não apresenta tendência sistemática de subida ou de descida \cite{albani2025}. Se $X_t$ representa o preço do ativo no instante $t$, então seu preço
+descontado para o instante inicial é definido por
+
+\begin{equation}
+\widehat{X}_t = e^{-rt}X_t.
+\end{equation}
+
+O fator $e^{-rt}$ permite expressar o valor do ativo no instante $t$ em
+termos de seu valor presente, utilizando a taxa livre de risco $r$ como
+taxa de desconto. Sob a medida neutra ao risco $\mathbb{Q}$, o processo
+$\widetilde{S}_t$ é um martingal, de modo que, para $t \geq s$,
+
+\begin{equation}
+\mathbb{E}^{\mathbb{Q}}
+\left[
+e^{-rt}S_t
+\mid
+\mathcal{F}_s
+\right]
+=
+e^{-rs}S_s.
+\end{equation}
+
+Isso significa que, uma vez descontado pela taxa livre de risco, o valor
+esperado futuro do ativo, condicionado às informações disponíveis no
+instante $s$, coincide com seu valor descontado atual.
+
+\subsection{Movimento Browniano}
+Considere um espaço de probabilidade $(\Omega,\mathcal{F},P)$.
+Um processo estocástico de valores reais
+$\{W(t):t\geq 0\}$ é denominado \textbf{\textit{movimento browniano}}
+quando satisfaz as seguintes propriedades:
+
+\begin{enumerate}
+    \item
+   \begin{equation}
+W(0)=0 \quad \text{quase certamente, isto é, } P(W(0)=0)=1;
+\end{equation}
+    \item Para quaisquer $0\leq s\leq t$,
+    \begin{equation}
+W(t)-W(s)\sim\mathcal{N}(0,t-s);
+\end{equation}
+    \item Para quaisquer instantes
+    \begin{equation}
+0<t_1<t_2<\cdots<t_m,
+\end{equation}
+    os incrementos
+    \begin{equation}
+W(t_1),\;
+    W(t_2)-W(t_1),\ldots,
+    W(t_m)-W(t_{m-1})
+\end{equation}
+    são independentes.
+\end{enumerate}
+Podemos dizer que o movimento browniano é um martingal em relação à sua
+filtração natural. Isso implica que, mesmo conhecendo toda a trajetória
+do movimento browniano até o instante $s$, a melhor previsão para $W_t$
+continua sendo o valor atual $W_s$. \cite{albani2025} Isso ocorre justamente porque os incrementos futuros são independentes do passado. A independência dos incrementos permite interpretar $dW_t$ como uma fonte
+de perturbações aleatórias sucessivas ao longo do tempo
+\cite{fouque2011blackscholes}. Entretanto, as trajetórias do movimento
+browniano são altamente irregulares e não possuem variação limitada, o que
+motiva a introdução do cálculo estocástico e, em particular, da integral
+de Itô. Esses incrementos, denotados por $dW_t$, são centrados,
+independentes e normalmente distribuídos, com variância proporcional ao
+intervalo de tempo $dt$. Dessa forma, $dW_t$ pode ser interpretado como uma
+fonte de perturbações aleatórias sucessivas, característica desejável na
+modelagem das oscilações imprevisíveis dos preços de ativos. No entanto, essa representação não possui variação limitada, tornando-se necessário novas ferramentas além do cálculo diferencial e integral fazendo-se necessário introduzir as ferramentas que solucionam isso: a integral de Itô.
+
+\subsection{Processos de Itô}
+Um processo estocástico $X_t$ pode ser representado, sob condições
+adequadas, na forma
+
+\begin{equation}
+dX_t = a_t\,dt + b_t\,dW_t.
+\label{eq:processo-ito}
+\end{equation}
+
+Nessa representação, $a_t$ corresponde ao termo de \textit{drift},
+enquanto $b_t$ determina a intensidade da componente estocástica
+associada ao movimento browniano \cite{albani2025}.
+\subsection{Integral de Itô}
+
+A modelagem por meio de processos estocásticos introduz termos envolvendo
+o movimento browniano, como ocorre no movimento browniano geométrico,
+\begin{equation}
+dS_t = \mu S_t\,dt + \sigma S_t\,dW_t.
+\end{equation}
+Para interpretar expressões desse tipo, é necessário definir uma noção de
+integração em relação ao movimento browniano. A integral usual de Riemann
+não é suficiente nesse contexto, pois as trajetórias do movimento browniano
+são contínuas, porém altamente irregulares. A integral de Itô fornece uma
+estrutura adequada para tratar integrais da forma
+\begin{equation}
+\int_0^T f(t)\,dW_t.
+\end{equation}
+Considere um espaço de probabilidade filtrado
+\begin{equation}
+(\Omega,\mathcal{F},(\mathcal{F}_t)_{t\in[0,T]},P)
+\end{equation}
+e um movimento browniano $W_t$ adaptado à filtração
+$(\mathcal{F}_t)_{t\in[0,T]}$. Seja $f(\omega,t)$ um processo simples e
+adaptado da forma
+\begin{equation}
+f(\omega,t)
+=
+\sum_{i=1}^{n}
+a_{i-1}(\omega)
+\mathbf{1}_{[t_{i-1},t_i)}(t),
+\end{equation}
+em que
+\begin{equation}
+0=t_0<t_1<\cdots<t_n=T,
+\end{equation}
+e cada $a_{i-1}$ é $\mathcal{F}_{t_{i-1}}$-mensurável e possui segundo
+momento finito.
+
+A condição de adaptabilidade expressa que, no intervalo
+$[t_{i-1},t_i)$, o valor $a_{i-1}$ depende apenas das informações
+disponíveis até o instante $t_{i-1}$. Dessa forma, o processo não utiliza
+informações futuras para determinar seu valor presente.
+
+Para processos simples desse tipo, a integral de Itô de $f$ em relação a
+$W$ é definida por
+\begin{equation}
+\int_0^T f(\omega,t)\,dW_t
+=
+\sum_{i=1}^{n}
+a_{i-1}(\omega)
+\left(
+W_{t_i}-W_{t_{i-1}}
+\right).
+\end{equation}
+Assim, em cada intervalo $[t_{i-1},t_i)$, o valor conhecido do processo no
+início do intervalo é multiplicado pelo incremento correspondente do
+movimento browniano,
+\begin{equation}
+W_{t_i}-W_{t_{i-1}}.
+\end{equation}
+Essa construção é análoga a uma soma de Riemann, porém apresenta uma
+diferença fundamental: o incremento é dado pelo movimento browniano, e o
+integrando é avaliado no extremo esquerdo de cada intervalo. Essa escolha é
+essencial para preservar a adaptação do processo à filtração.
+
+A definição para processos simples constitui o ponto de partida para a
+construção da integral de Itô em classes mais gerais de processos, obtida por
+aproximação em média quadrática. Essa integral é um dos elementos centrais do
+cálculo estocástico e permite formular e analisar equações diferenciais
+estocásticas utilizadas na modelagem financeira.
+
+\subsection{Movimento Browniano Geométrico}
+O movimento browniano geométrico é utilizado para modelar a evolução do
+preço de um ativo de forma proporcional ao seu próprio valor. Sua dinâmica
+é descrita pela equação diferencial estocástica
+
+\begin{equation}
+\frac{dS_t}{S_t}
+=
+\mu\,dt
++
+\sigma\,dW_t,
+\end{equation}
+
+ou, de forma equivalente,
+
+\begin{equation}
+dS_t
+=
+\mu S_t\,dt
++
+\sigma S_t\,dW_t.
+\end{equation}
+
+Essa formulação indica que tanto a componente determinística quanto a
+componente aleatória atuam proporcionalmente sobre o preço atual do ativo.
+Assim, as variações de $S_t$ são multiplicativas, e não aditivas.
+
+Para obter uma expressão explícita para $S_t$, aplica-se a Fórmula de Itô à
+função $g(S_t)=\ln S_t$. Como consequência,
+
+\begin{equation}
+d\ln S_t
+=
+\left(
+\mu-\frac{\sigma^2}{2}
+\right)dt
++
+\sigma\,dW_t.
+\end{equation}
+
+Integrando entre os instantes $0$ e $t$, obtém-se
+
+\begin{equation}
+\ln S_t
+=
+\ln S_0
++
+\left(
+\mu-\frac{\sigma^2}{2}
+\right)t
++
+\sigma W_t.
+\end{equation}
+
+Aplicando a função exponencial em ambos os lados,
+
+\begin{equation}
+S_t
+=
+S_0
+\exp\left[
+\left(
+\mu-\frac{\sigma^2}{2}
+\right)t
++
+\sigma W_t
+\right].
+\end{equation}
+
+É essa forma exponencial que evidencia o caráter geométrico do processo.
+O movimento browniano $W_t$ atua sobre o logaritmo do preço, de modo que o
+preço $S_t$ resulta da exponenciação de um processo com componente
+browniana. Como consequência, $S_t$ permanece positivo e apresenta
+distribuição lognormal.
+
+Apesar de sua utilidade na modelagem de preços de ativos, o movimento
+browniano geométrico apresenta limitações importantes. O modelo assume,
+entre outros aspectos, que a volatilidade $\sigma$ permanece constante ao
+longo do tempo e que os retornos logarítmicos seguem uma distribuição
+normal. Uma outra limitação é que pode assumir valores negativos e descreve variações absolutas, enquanto, em aplicações
+financeiras, é mais natural considerar variações proporcionais ao preço
+corrente do ativo. Essas hipóteses simplificam a dinâmica do preço, mas podem não
+representar adequadamente características observadas em mercados reais.
+Destaca-se a regressão simbólica como uma alternativa orientada
+a dados, capaz de buscar expressões matemáticas que aproximem relações de
+precificação sem impor previamente uma estrutura funcional rígida. Além da
+capacidade de ajuste, essa abordagem preserva a possibilidade de obtenção de
+expressões analíticas interpretáveis e potencialmente menos custosas
+computacionalmente.
+
+\subsection{Método de Monte Carlo}
+
+O método de Monte Carlo corresponde a uma classe de métodos numéricos
+baseados na geração repetida de amostras aleatórias para a aproximação de
+quantidades de interesse. Em problemas nos quais uma solução analítica é
+difícil ou inviável de obter diretamente, a simulação permite representar
+possíveis realizações de um sistema e utilizar essas realizações para
+estimar propriedades estatísticas do modelo \cite{glasserman2003}.
+
+Considere uma variável aleatória $X$ e uma função $g(X)$ cuja esperança
+deseja-se estimar. Se forem geradas $N$ amostras independentes
+$X_1,X_2,\ldots,X_N$, a esperança de $g(X)$ pode ser aproximada pela média
+amostral
+
+\begin{equation}
+\mathbb{E}[g(X)]
+\approx
+\frac{1}{N}
+\sum_{i=1}^{N} g(X_i).
+\end{equation}
+
+À medida que o número de simulações aumenta, a média amostral tende ao
+valor esperado da variável, resultado associado à Lei dos Grandes Números.
+Dessa forma, o método de Monte Carlo permite aproximar numericamente
+quantidades probabilísticas a partir de um grande número de realizações
+aleatórias.
+
+A precisão da estimativa depende do número de simulações realizadas. De
+forma geral, o erro estatístico do método diminui proporcionalmente a
+
+\begin{equation}
+\frac{1}{\sqrt{N}},
+\end{equation}
+
+de modo que uma redução significativa do erro pode exigir um aumento
+considerável no número de simulações.
+
+Em finanças quantitativas, métodos de Monte Carlo são amplamente utilizados
+para a simulação de trajetórias de preços de ativos e para a precificação de
+derivativos. Nesse contexto, cada simulação representa uma possível evolução
+do ativo ao longo do tempo, obtida a partir de um modelo estocástico
+especificado previamente. A repetição desse processo permite analisar
+diferentes cenários possíveis para o comportamento futuro do ativo
+\cite{glasserman2003}. A solução do movimento browniano geométrico que será apresentada na seção seguinte
+fornece a dinâmica utilizada para a simulação das trajetórias do ativo.
+O método de Monte Carlo consiste, nesse contexto, na geração repetida de
+realizações aleatórias do movimento browniano, produzindo diferentes
+possíveis trajetórias para o preço $S_t$.
+
+\subsection{Modelo de Black--Scholes}
+
+Os conceitos apresentados anteriormente fornecem a estrutura matemática
+necessária para a formulação do modelo de Black--Scholes. Em particular,
+o movimento browniano geométrico permite representar a dinâmica do ativo
+subjacente, enquanto a Fórmula de Itô possibilita determinar como o valor
+de uma opção se modifica em função dessa dinâmica.
+
+Considera-se que o preço $S_t$ do ativo subjacente satisfaça a equação
+diferencial estocástica
+\[
+dX_t = a_t\,dt + b_t\,dW_t.
+\]
+em que $\mu$ representa a taxa de crescimento esperada do ativo,
+$\sigma$ sua volatilidade e $W_t$ um movimento browniano.
+
+A solução dessa equação diferencial estocástica pode ser expressa por
+\begin{equation}
+S_t
+=
+S_0
+\exp\left[
+\left(
+\mu-\frac{\sigma^2}{2}
+\right)t
++
+\sigma W_t
+\right].
+\end{equation}
+Essa expressão descreve a evolução do preço do ativo ao longo do tempo por meio de duas componentes. A parcela
+\begin{equation}
+\exp\left[\left(\mu-\frac{\sigma^2}{2}\right)t\right]
+\end{equation}
+representa o componente de crescimento do processo, enquanto o termo
+\begin{equation}
+W_t
+\end{equation}
+introduz a aleatoriedade associada ao movimento browniano. Assim, a parcela estocástica aparece no fator
+\begin{equation}
+\exp(\sigma W_t),
+\end{equation}
+responsável pelas oscilações aleatórias do preço ao longo do tempo.
+
+O modelo de Black--Scholes foi desenvolvido com o objetivo de obter uma
+expressão para a precificação de opções a partir de hipóteses sobre a
+dinâmica do ativo subjacente e da construção de uma carteira livre de risco
+\cite{blackscholes1973}. Seja, portanto,
+\begin{equation}
+V = V(S_t,t)
+\end{equation}
+o valor de uma opção como função do preço do ativo subjacente e do tempo.
+Como $S_t$ é um processo de Itô, a evolução de $V$ pode ser obtida por
+meio da Fórmula de Itô:
+\begin{equation}
+dV =
+\left(
+\frac{\partial V}{\partial t}
++
+\mu S_t \frac{\partial V}{\partial S}
++
+\frac{1}{2}\sigma^2 S_t^2
+\frac{\partial^2 V}{\partial S^2}
+\right)dt
++
+\sigma S_t
+\frac{\partial V}{\partial S}
+\,dW_t.
+\end{equation}
+Observa-se que a variação do preço da opção contém, assim como a dinâmica
+do ativo, uma componente aleatória associada a $dW_t$. Black e Scholes
+consideram então a construção de uma carteira composta pelo derivativo e
+pelo ativo subjacente em proporções tais que essa componente aleatória seja
+eliminada.
+
+Uma vez eliminado o risco instantâneo associado ao movimento browniano,
+a carteira resultante deve, sob a hipótese de ausência de arbitragem,
+apresentar a mesma taxa de retorno de um ativo livre de risco. Essa
+condição faz com que a taxa de crescimento $\mu$ do ativo deixe de aparecer
+na equação de precificação, sendo substituída pela taxa livre de risco $r$.
+
+Obtém-se, dessa forma, a equação diferencial parcial de Black--Scholes:
+\begin{equation}
+\frac{\partial V}{\partial t}
++
+\frac{1}{2}\sigma^2 S^2
+\frac{\partial^2 V}{\partial S^2}
++
+rS\frac{\partial V}{\partial S}
+-
+rV
+=
+0.
+\end{equation}
+Para uma opção europeia de compra, a solução da equação de Black--Scholes
+pode ser expressa como uma função dos parâmetros que determinam o valor do
+contrato. Denotando por
+\begin{equation}
+C^{BS}(t,S,T,K,r,\sigma)
+\end{equation}o preço, no instante $t$, de uma opção de compra europeia no modelo de
+Black--Scholes, tem-se que $S$ representa o preço corrente do ativo
+subjacente, $K$ o preço de exercício, $T$ a data de vencimento, $r$ a taxa
+de juros livre de risco e $\sigma$ a volatilidade do ativo.
+
+No instante de vencimento, $t=T$, o valor da opção corresponde ao seu
+\textit{payoff},
+\begin{equation}
+C^{BS}(T,S,T,K,r,\sigma)
+=
+(S-K)^{+},
+\end{equation}
+em que $(S-K)^{+}=\max(S-K,0)$.
+
+Para a formulação completa do modelo, utiliza-se a função de distribuição
+normal padrão, denotada por $\Phi(\cdot)$. Define-se agora a quantidade
+intermediária $d_1$ como
+
+\begin{equation}
+d_1 =
+\frac{
+\ln\left(\frac{S}{K}\right)
++
+\left(r+\frac{\sigma^2}{2}\right)(T-t)
+}{
+\sigma\sqrt{T-t}
+}.
+\end{equation}
+O termo
+\[
+\ln\left(\frac{S}{K}\right)
+\]
+representa a relação entre o preço corrente do ativo subjacente, $S$, e o
+preço de exercício da opção, $K$. Esse termo pode ser interpretado como uma
+medida logarítmica de \textit{moneyness}, indicando quão distante o preço do
+ativo se encontra do preço de exercício estabelecido em contrato.
+Já o termo
+
+\[
+\left(r+\frac{\sigma^2}{2}\right)(T-t)
+\]
+
+incorpora o efeito da taxa de juros livre de risco $r$ e da volatilidade
+$\sigma$ ao longo do tempo restante até o vencimento, $T-t$. Sob a medida
+neutra ao risco, assume-se que o ativo subjacente apresenta taxa de
+crescimento esperada igual à taxa livre de risco $r$.
+
+A presença do termo envolvendo $\sigma^2$ decorre da dinâmica lognormal
+assumida para o preço do ativo. Pela Fórmula de Itô, se $S_t$ segue um
+movimento browniano geométrico, então o logaritmo de seu preço possui
+dinâmica dada por
+
+\[
+d\ln S_t
+=
+\left(r-\frac{\sigma^2}{2}\right)dt
++
+\sigma\,dW_t.
+\]
+
+Dessa forma, o termo $-\sigma^2/2$ surge como uma correção associada à
+transformação logarítmica do processo. Na formulação de Black--Scholes,
+essa correção aparece em $d_2$, enquanto a relação
+
+\[
+d_1 = d_2 + \sigma\sqrt{T-t}
+\]
+
+faz com que o numerador de $d_1$ contenha o termo
+$r+\sigma^2/2$. 
+Já o termo $d_2$ é definido a partir de $d_1$ por
+
+\begin{equation}
+d_2 = d_1 - \sigma\sqrt{T-t}.
+\end{equation}
+
+De forma equivalente, pode ser escrito como
+
+\begin{equation}
+d_2 =
+\frac{
+\ln\left(\frac{S}{K}\right)
++
+\left(r-\frac{\sigma^2}{2}\right)(T-t)
+}{
+\sigma\sqrt{T-t}
+}.
+\end{equation}
+
+Assim como $d_1$, o termo $d_2$ combina informações sobre o preço atual
+do ativo, o preço de exercício, a taxa livre de risco, a volatilidade e o
+tempo restante até o vencimento. Entretanto, em $d_2$, o termo
+$-\sigma^2/2$ corresponde à correção introduzida pela Fórmula de Itô ao
+considerar o logaritmo do preço do ativo. Subtraindo de $d_1$ a volatilidade ajustada pelo tempo restante até o vencimento. O termo \[
+\sigma\sqrt{T-t}
+\] 
+representa a escala de incerteza acumulada ao longo do tempo
+
+Então, para $t<T$, o preço da opção é dado por
+\begin{equation}
+C^{BS}(t,S,T,K,r,\sigma)
+=
+S\Phi(d_1)
+-
+Ke^{-r(T-t)}\Phi(d_2),
+\end{equation}
+em que $\Phi(\cdot)$ representa a função de distribuição acumulada da
+normal padrão.
+A expressão evidencia que o valor da opção depende do preço do ativo
+subjacente $S$, do tempo restante até o vencimento $T-t$, do preço de
+exercício $K$, da taxa livre de risco $r$ e da volatilidade $\sigma$. \cite{saporito2024}
+A sensibilidade do preço da opção a variações nesses parâmetros pode ser
+analisada por meio das chamadas Gregas. No entanto, as hipóteses  do movimento browniano geométrico gera limitações ao modelo de Black--Scholes, como a volatilidade  $\sigma$ permanecer constante e o retorno logarítimicos seguem uma distribuição normal. Por exemplo, se um ativo tiver saltos abruptos no preço, o modelo não é capaz de interpretá-lo. Basicamente, em mercados
+reais, fenômenos já mencionados como e também com o \textit{volatility smile} \cite{saporito2024} evidenciam a necessidade de
+outros modelos, como Heston e SABR, que incorporam dinâmicas mais
+complexas para a volatilidade. Entretanto, essas abordagens aumentam a
+complexidade analítica e computacional. Torna-se, portante, relevante buscar alternativas capazes de buscar expressões matemáticas que aproximem relações de
+precificação sem impor previamente uma estrutura rígida.
+
+\subsection{Limitações do modelo de Black--Scholes}
+Embora o modelo de Black--Scholes tenha um grande impacto na precificação de opções, sua aplicação empírica revelou limitações importantes, pois a formulação clássica baseia-se em hipóteses simplificadoras sobre a dinâmica dos preços dos ativos \cite{saporito2024}. Essa discrepância torna-se evidente quando se analisam opções com diferentes preços de exercício e prazos até o vencimento. Enquanto a formulação clássica pressupõe um único parâmetro de volatilidade constante para o ativo subjacente, os preços praticados no mercado implicam diferentes níveis de volatilidade implícita, originando padrões geométricos conhecidos como \textit{volatility smile} e \textit{volatility skew}. Esses fenômenos demonstram que a hipótese de volatilidade constante é insuficiente para representar de forma fiel a superfície de preços observada em mercados reais.
+
+Apesar dessas limitações, o modelo de
+Black--Scholes permanece uma referência
+fundamental na literatura financeira,
+especialmente por sua formulação analítica
+e pela possibilidade de avaliar a sensibilidade
+dos preços das opções em relação aos parâmetros
+de precificação.
+
+Essas características tornam o modelo
+particularmente adequado como referência
+matemática para a investigação de métodos
+de aproximação, como a regressão simbólica.
+
+
+\subsection{Gregas: Sensibilidades do modelo de Black--Scholes}
+
+Além de fornecer o valor teórico de uma opção, o modelo de Black--Scholes
+permite analisar como esse valor responde a alterações nos parâmetros que
+compõem o modelo. Essas sensibilidades são tradicionalmente representadas
+pelas chamadas \textit{Gregas}, obtidas por meio de derivadas do preço da
+opção em relação a diferentes variáveis. \cite{hull2022}
+
+Seja $V = V(S,t;K,T,r,\sigma)$ o valor de uma opção no modelo de
+Black--Scholes. As Gregas expressam a sensibilidade desse valor a
+variações em diferentes parâmetros do modelo, como o preço do ativo
+subjacente $S$, a volatilidade $\sigma$, a taxa de juros livre de risco $r$
+e o tempo $t$, dando origem, respectivamente, às medidas Delta, Vega, Rho
+e Theta. Além de auxiliarem na interpretação do comportamento do preço do derivativo,
+essas medidas também possuem papel importante na gestão de risco, pois
+permitem identificar quais fatores exercem maior influência sobre o valor da
+posição e orientar estratégias de proteção da carteira.
+
+\paragraph{Delta}
+
+O Delta mede a sensibilidade do preço da opção em relação ao preço do ativo
+subjacente. De forma geral, é: \begin{equation}
+\Delta = \frac{\partial V}{\partial S}
+\end{equation}
+Para call e put:
+\begin{equation}
+\Delta_{\text{call}} = \Phi(d_1)
+\end{equation}
+\begin{equation}
+\Delta_{\text{put}} = \Phi(d_1) - 1
+\end{equation}
+
+O Delta também é fundamental na construção de estratégias de
+\textit{hedge}. Uma carteira pode ser ajustada de modo que a exposição às
+pequenas variações do preço do ativo subjacente seja reduzida ou neutralizada,
+procedimento conhecido como \textit{delta hedging}. Dessa forma, o Delta não
+apenas descreve uma sensibilidade matemática, mas também fornece uma medida
+diretamente aplicável à proteção de posições em derivativos.
+
+\paragraph{Gama}
+
+O Gama mede a variação do Delta em relação ao preço do ativo. É a derivada do delta. 
+\begin{equation}
+\Gamma = \frac{\partial^2 V}{\partial S^2}
+\end{equation}
+No modelo de black-scholes é:
+\begin{equation}
+\Gamma
+=
+\frac{\phi(d_1)}
+{S\sigma\sqrt{T-t}}
+\end{equation}
+\paragraph{Teta}
+O Teta mede a sensibilidade do valor da opção em relação à passagem
+do tempo, sendo definido de forma geral por
+\begin{equation}
+\Theta = \frac{\partial V}{\partial t}.
+\end{equation}
+No modelo de Black--Scholes, para uma opção europeia de compra,
+\begin{equation}
+\Theta_{\text{call}}
+=
+-\frac{S\sigma\phi(d_1)}
+{2\sqrt{T-t}}
+-
+rKe^{-r(T-t)}\Phi(d_2).
+\end{equation}
+\paragraph{Vega}
+
+O vega mede a sensibilidade em relação à volatilidade. É definido de forma geral como \begin{equation}
+\text{Vega}
+=
+\frac{\partial V}{\partial \sigma}
+\end{equation}
+No modelo de Black-Scholes, para opções europeias é:
+\begin{equation}
+\text{Vega}
+=
+S\phi(d_1)\sqrt{T-t}
+\end{equation}
+\paragraph{Rho}
+
+O Rho mede a sensibilidade do valor da opção em relação à taxa de juros livre de risco $r$. De forma geral, é definido por
+\begin{equation}
+\rho
+=
+\frac{\partial V}{\partial r}.
+\end{equation}
+No modelo de Black--Scholes, para uma opção europeia de compra sem pagamento de dividendos, o Rho é dado por
+\begin{equation}
+\rho_{\text{call}}
+=
+K(T-t)e^{-r(T-t)}\Phi(d_2),
+\end{equation}
+enquanto, para uma opção europeia de venda,
+\begin{equation}
+\rho_{\text{put}}
+=
+-K(T-t)e^{-r(T-t)}\Phi(-d_2).
+\end{equation}
+Portanto, por serem definidas como derivadas parciais do preço do derivativo, as Gregas capturam a geometria local da superfície de precificação de Black--Scholes. Essa propriedade permite utilizá-las em expansões em série e aproximações locais, decompondo o modelo em termos que evidenciam a contribuição de cada parâmetro para a formação do preço da opção.
+
+\subsection{Aproximações locais e expansões assintóticas do modelo de Black--Scholes}
+
+Apesar do modelo de Black--Scholes possuir uma solução analítica, sua avaliação depende da sua função de distribuição acumulada da normal padrão, $\Phi(\cdot)$, que é definida por uma integral imprópria \cite{strang2016} que não admite representação fechada em termos de funções algébricas elementares:
+\begin{equation}
+\Phi(x) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{x} e^{-u^2/2}\,du = \frac{1}{2}\left[1 + \text{erf}\left(\frac{x}{\sqrt{2}}\right)\right],
+\end{equation}
+em que $\text{erf}(\cdot)$ denota a função erro de Gauss. Do ponto de vista analítico e computacional, essa característica motiva o uso de expansões em série de potências para aproximar localmente a superfície de precificação por expressões polinomiais ou algébricas mais simples.
+De forma geral, a expansão  em série de Taylor \cite{strang2016} permite aproximar localmente uma função suficientemente diferenciável por um polinômio cujos coeficientes são determinados pelas derivadas da função em um ponto de referência, ou seja, o número de derivadas exigido depende da ordem da aproximação que queremos realizar.
+\begin{equation}
+V(\theta) \approx V(\theta_0) + \frac{\partial V}{\partial \theta}(\theta_0)(\theta - \theta_0) + \frac{1}{2}\frac{\partial^2 V}{\partial \theta^2}(\theta_0)(\theta - \theta_0)^2 + \mathcal{O}\left((\theta - \theta_0)^3\right).
+\end{equation}
+
+No contexto da precificação de opções, essa formulação conecta-se diretamente às Gregas apresentadas anteriormente. Por exemplo, considerando variações no preço do ativo subjacente $S$ em torno de $S_0$ e no tempo decorrido $\Delta t$, obtém-se a clássica aproximação local Delta--Gama--Teta:
+\begin{equation}
+\Delta V \approx \Delta (S - S_0) + \frac{1}{2}\Gamma (S - S_0)^2 + \Theta \Delta t.
+\end{equation}
+Onde:
+- \(\Theta=\frac{\partial C}{\partial t}\): sensibilidade do preço à passagem do tempo.
+
+- \(\Delta=\frac{\partial C}{\partial S}\): sensibilidade ao preço do ativo.
+
+- \(\Gamma=\frac{\partial^2 C}{\partial S^2}\): curvatura do preço em relação ao ativo.
+
+- \(C\): preço da opção.
+
+
+
+Nesse caso, $\theta$ pode representar o preço do
+ativo subjacente $S$, a taxa livre de risco $r$
+ou a volatilidade $\sigma$. As derivadas que
+compõem a expansão estão diretamente relacionadas
+às sensibilidades financeiras do modelo de
+Black--Scholes.
+
+Dessa forma, conseguimos escrever a equação de Black--Scholes usando suas dervidas parciais. Por outro lado, ao analisar o comportamento do preço da opção em função do tempo restante até o vencimento, $\tau = T - t$, observa-se que os argumentos $d_1$ e $d_2$ apresentam uma dependência em relação à raiz quadrada do prazo, $\sqrt{\tau}$. Em particular, para uma opção \textit{at-the-money} ($S = K$), tem-se $\ln(S/K) = 0$, o que reduz os termos $d_1$ e $d_2$ a:
+\begin{equation}
+d_1 = \left(\frac{r}{\sigma} + \frac{\sigma}{2}\right)\sqrt{\tau}
+\qquad \text{e} \qquad
+d_2 = \left(\frac{r}{\sigma} - \frac{\sigma}{2}\right)\sqrt{\tau}.
+\end{equation}
+
+
+Dessa forma, conseguimos escrever a equação de Black--Scholes usando suas derivadas parciais. Contudo, para além das aproximações baseadas nas Gregas em relação ao preço do ativo subjacente, é de particular interesse analítico investigar o comportamento do preço de uma opção quando o horizonte temporal se esgota, ou seja, próximo ao vencimento.
+
+Ao analisar a fórmula de Black--Scholes em função do tempo restante até o vencimento, $\tau = T - t$, observa-se que os argumentos $d_1$ e $d_2$ dependem diretamente da raiz quadrada do prazo, $\sqrt{\tau}$. Em particular, para uma opção \textit{at-the-money} ($S = K$), tem-se $\ln(S/K) = 0$, o que reduz os termos a:
+
+\begin{equation}
+d_1 = \left(\frac{r}{\sigma} + \frac{\sigma}{2}\right)\sqrt{\tau}
+\quad \text{e} \quad
+d_2 = \left(\frac{r}{\sigma} - \frac{\sigma}{2}\right)\sqrt{\tau}.
+\end{equation}
+
+Com o intuito de explicitar analiticamente a contribuição de cada ordem de grandeza de $\tau$ para o valor do derivativo, à medida que $d_1$ e $d_2$ tendem a zero quando $\tau \to 0$, é conveniente expandir a função de distribuição normal acumulada $\Phi(x)$ e o fator de desconto exponencial $e^{-r\tau}$ em séries de Maclaurin em torno da origem \cite{strang2016}:
+Em particular, a expansão da função de distribuição
+normal acumulada $\Phi(x)$ pode ser obtida a partir
+da série de potências da função erro de Gauss,
+apresentada na Seção 7.6 da \textit{NIST Digital Library
+of Mathematical Functions} \cite{nistDLMF}:
+
+\begin{equation}
+    \Phi(x)
+    = \frac{1}{2}
+    + \frac{1}{\sqrt{2\pi}}
+    \left(
+        x - \frac{x^3}{6} + O(x^5)
+    \right).
+\end{equation}
+
+Analogamente, a expansão de Maclaurin do fator
+de desconto exponencial, conforme a formulação
+geral apresentada por \cite{strang2016}, fornece:
+
+\begin{equation}
+    e^{-r\tau}
+    = 1-r\tau
+    +\frac{1}{2}r^2\tau^2
+    +O(\tau^3).
+\end{equation}
+
+As séries de Maclaurin tradicionais operam apenas com potências inteiras ($x^1, x^2, x^3$), de modo que o fato de o modelo de Black--Scholes trabalhar com $\sqrt{\tau}$ gera potências fracionárias ($\tau^{1/2}, \tau^{3/2}, \tau^{5/2}$), o que caracteriza formalmente uma Série de Puiseux. Essa estrutura enquadra-se formalmente na classe das \textbf{Séries de Puiseux}, que generalizam as séries de potências ao admitirem expoentes fracionários com denominador comum \cite{eberl2021}:
+\begin{equation}
+f(\tau) = a_0 + a_1\tau^{1/2} + a_2\tau + a_3\tau^{3/2} + a_4\tau^2 + \cdots
+\end{equation}
+
+Portanto, ao aplicar as expansões de Maclaurin sobre as funções elementares e não elementares que compõem a fórmula fechada, o resultado final do modelo de Black--Scholes, quando expresso diretamente em função do tempo até o vencimento $\tau$, assume naturalmente a forma de uma expansão de Puiseux.

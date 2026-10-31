@@ -1,0 +1,77 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{v-1.9.7 }
+
+\bibitem{fia2026options}
+\abntrefinfo{{Futures Industry Association}}{{Futures Industry Association}}{2026}
+{{Futures Industry Association}. \textbf{Traders Pivot to Options as Volatility Redefines Hedging}. 2026.
+FIA MarketVoice. Published: 22 May 2026. Accessed: 23 October 2026.
+Dispon{\'\i}vel em: \url{https://www.fia.org/marketvoice/articles/traders-pivot-options-volatility-redefines-hedging}.}
+
+\bibitem{blackscholes1973}
+\abntrefinfo{Black e Scholes}{BLACK; SCHOLES}{1973}
+{BLACK, F.; SCHOLES, M. The pricing of options and corporate liabilities.
+\textbf{Journal of Political Economy}, v.~81, n.~3, p. 637--654, 1973.}
+
+\bibitem{james2023}
+\abntrefinfo{James}{JAMES}{2023}
+{JAMES, B.~R. \textbf{Probabilidade: um curso em nível intermediário}. 5. ed. Rio de Janeiro: IMPA, 2023.
+ISBN 978-85-244-0455-9.}
+
+\bibitem{albani2025}
+\abntrefinfo{Albani}{ALBANI}{2025}
+{ALBANI, V. V.~L. \textbf{Uma Introdução aos Métodos Matemáticos em Finanças}. São Carlos: Sociedade Brasileira de Matemática Aplicada e Computacional, 2025. v.~101.  (Notas em Matemática Aplicada, v.~101).}
+
+\bibitem{saporito2024}
+\abntrefinfo{Saporito}{SAPORITO}{2024}
+{SAPORITO, Y.~F. \textbf{Modelos de Volatilidade para Derivativos}. Rio de Janeiro: Editora FGV, 2024.
+ISBN 9786556522357.}
+
+\bibitem{fouque2011blackscholes}
+\abntrefinfo{Fouque et al.}{FOUQUE et al.}{2011}
+{FOUQUE, J.-P. et al. The black--scholes theory of derivative pricing. In:  \textbf{Multiscale Stochastic Volatility for Equity, Interest Rate, and Credit Derivatives}. [S.l.]: Cambridge University Press, 2011. p. 1--50.}
+
+\bibitem{glasserman2003}
+\abntrefinfo{Glasserman}{GLASSERMAN}{2003}
+{GLASSERMAN, P. \textbf{Monte Carlo Methods in Financial Engineering}. New York: Springer, 2003. v.~53.  (Stochastic Modelling and Applied Probability, v.~53).}
+
+\bibitem{hull2022}
+\abntrefinfo{Hull}{HULL}{2022}
+{HULL, J.~C. \textbf{Options, Futures, and Other Derivatives}. 11. ed. [S.l.]: Pearson, 2022.}
+
+\bibitem{strang2016}
+\abntrefinfo{Strang e Herman}{STRANG; HERMAN}{2016}
+{STRANG, G.; HERMAN, E. \textbf{Calculus Volume 2}. Houston, Texas: OpenStax, 2016. Dispon{\'\i}vel em: \url{https://openstax.org/books/calculus-volume-2}.}
+
+\bibitem{nistDLMF}
+\abntrefinfo{{National Institute of Standards and Technology}}{{National Institute of Standards and Technology}}{}
+{{National Institute of Standards and Technology}. \textbf{{NIST Digital Library of Mathematical Functions}: Series Expansions}.
+Chapter 7, Section 7.6, Equation 7.6.1. Accessed: 22 October 2026.
+Dispon{\'\i}vel em: \url{https://dlmf.nist.gov/7.6}.}
+
+\bibitem{eberl2021}
+\abntrefinfo{Eberl}{EBERL}{2021}
+{EBERL, M. Puiseux series.
+\textbf{Archive of Formal Proofs}, 2021.
+\url{https://isa-afp.org/entries/Puiseux_Series.html}, Formal proof development.}
+
+\bibitem{devlin2023ai}
+\abntrefinfo{Devlin, Cousins e Amitrano}{DEVLIN; COUSINS; AMITRANO}{2023}
+{DEVLIN, H.; COUSINS, R.; AMITRANO, A. \textbf{A day in the life of AI}. 2023.
+Dispon{\'\i}vel em: \url{https://www.theguardian.com/technology/ng-interactive/2023/oct/25/a-day-in-the-life-of-ai}. Acesso em: 9 out. 2026.}
+
+\bibitem{makke2024interpretable}
+\abntrefinfo{Makke e Chawla}{MAKKE; CHAWLA}{2024}
+{MAKKE, N.; CHAWLA, S. Interpretable scientific discovery with symbolic regression: a review.
+\textbf{Artificial Intelligence Review}, Springer, v.~57, n.~2, 2024.}
+
+\bibitem{brenndoerfer2025blackscholes}
+\abntrefinfo{Brenndoerfer}{BRENNDOERFER}{2025}
+{BRENNDOERFER, M. \textbf{Black-Scholes Formula: European Option Pricing \& Greeks}. 2025.
+Acesso em: 5 out. 2026.
+Dispon{\'\i}vel em: \url{https://mbrenndoerfer.com/writing/black-scholes-formula-european-option-pricing-greeks}.}
+
+\end{thebibliography}
