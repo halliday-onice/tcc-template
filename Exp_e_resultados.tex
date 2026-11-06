@@ -1,50 +1,598 @@
 
 \section{Resultados e Discussão}
+Neste capítulo, são apresentados e discutidos os resultados obtidos a partir da aplicação da regressão simbólica ao modelo de precificação de opções europeias de compra de Black-Scholes. A análise concentra-se na interpretação matemática e financeira das expressões identificadas pelo algoritmo PySR, considerando suas estruturas algébricas, complexidades e relações com o comportamento analítico da função de referência. Para além da avaliação dos erros de aproximação, examina-se o significado dos termos e coeficientes presentes nas expressões simbólicas, bem como sua capacidade de representar características relevantes da precificação de opções.
 
+Inicialmente, são examinados os experimentos univariados, nos quais os parâmetros do modelo de Black-Scholes foram variados individualmente, mantendo-se os demais constantes. Para cada experimento, são apresentadas as expressões simbólicas selecionadas, suas complexidades e as métricas de erro obtidas nos conjuntos de treinamento e teste. A interpretação dessas expressões é aprofundada por meio de comparações com expansões analíticas da função de Black-Scholes, particularmente as séries de Taylor e Puiseux, conforme as características de cada variável. São analisados os termos dominantes, os coeficientes das expansões e as aproximações locais obtidas, buscando identificar correspondências e diferenças entre as estruturas produzidas pela regressão simbólica e aquelas derivadas analiticamente.
 
-Este capítulo apresenta e discute os resultados obtidos
-nos experimentos de regressão simbólica realizados com
-o PySR, utilizando como referência os preços calculados
-pela formulação analítica de Black--Scholes.
+Posteriormente, são apresentados os resultados do experimento bivariado, no qual o preço do ativo subjacente e a volatilidade são considerados simultaneamente. Nessa etapa, a discussão é ampliada para as propriedades financeiras das expressões encontradas, considerando os limites de não arbitragem, a monotonicidade e a convexidade da função de precificação. São comparados os treinamentos realizados com a função de perda convencional e com a incorporação de penalidades financeiras, examinando seus efeitos sobre a estrutura das expressões, os erros de aproximação e o comportamento das sensibilidades Delta, Gamma e Vega. Essa análise permite investigar em que medida as relações matemáticas identificadas apresentam consistência com as propriedades financeiras esperadas.
 
-A análise considera a precisão preditiva, a complexidade
-das expressões identificadas e sua correspondência com
-as propriedades matemáticas do modelo original.
-
+Por fim, os resultados são discutidos de maneira integrada, considerando as relações entre complexidade simbólica, precisão numérica e interpretabilidade matemática e financeira. A comparação entre as expressões encontradas e as aproximações analíticas fornece elementos para compreender quais características do modelo de Black-Scholes podem ser identificadas nas estruturas produzidas pelo PySR, assim como as limitações dessas representações. Dessa maneira, a discussão procura distinguir a proximidade numérica dos preços da correspondência entre as estruturas matemáticas e suas implicações financeiras.
 
 \subsection{Resultados dos Experimentos Univariados}
 \label{sec:resultados_univariados}
+Nesta etapa, são apresentados e discutidos os resultados obtidos a partir dos experimentos univariados, nos quais os parâmetros do modelo de Black--Scholes foram variados individualmente, mantendo-se os demais constantes. Essa abordagem permite examinar separadamente a influência de cada variável sobre a função de precificação, proporcionando condições para uma análise mais detalhada das estruturas matemáticas identificadas pelo algoritmo PySR. Ao restringir a investigação a uma única variável por experimento, torna-se possível observar com maior clareza a composição algébrica das expressões obtidas, a presença de termos característicos e o comportamento dos coeficientes associados.
 
-Nesta etapa, são analisados os resultados obtidos pela
-variação individual dos parâmetros de Black--Scholes,
-mantendo-se os demais constantes.
+A interpretação dessas expressões é realizada com auxílio das expansões analíticas apresentadas na fundamentação teórica, particularmente as séries de Taylor e Puiseux, conforme as características de cada variável e do ponto de expansão considerado. Essas ferramentas fornecem referências matemáticas para investigar a correspondência entre as aproximações construídas pelo PySR e o comportamento local da função de Black--Scholes. Nesse contexto, são examinados os termos dominantes, as potências presentes nas expressões e os coeficientes obtidos, buscando identificar semelhanças e diferenças em relação às representações analíticas. A comparação não pressupõe que a regressão simbólica reproduza diretamente tais expansões, mas permite investigar em que medida as funções encontradas apresentam estruturas matemáticas compatíveis com elas.
 
-As expressões identificadas pelo PySR são comparadas
-com as expansões analíticas apresentadas na fundamentação
-teórica, buscando investigar a recuperação de estruturas
-matemáticas e a precisão das aproximações.
+Além da análise estrutural, são consideradas a complexidade simbólica das expressões e suas respectivas métricas de erro nos conjuntos de treinamento e teste. A avaliação numérica complementa a interpretação matemática ao permitir verificar se a correspondência entre termos e coeficientes está acompanhada de uma aproximação satisfatória dos preços teóricos. Particular atenção é dedicada ao comportamento das expressões fora dos intervalos utilizados no treinamento, uma vez que um ajuste adequado aos dados observados não implica, necessariamente, a preservação das propriedades da função de referência em regiões não utilizadas na estimação.
 
+Os resultados são organizados de acordo com o parâmetro analisado, considerando o tempo até o vencimento ($\tau$), a taxa livre de risco ($r$), a volatilidade ($\sigma$) e o preço do ativo subjacente ($S$). Para cada experimento, são apresentadas as expressões selecionadas, seguidas da comparação de seus erros, da investigação de sua correspondência com as aproximações analíticas pertinentes e da discussão de suas limitações. Quando aplicável, também são examinadas as sensibilidades financeiras associadas às expressões encontradas, permitindo relacionar sua estrutura matemática ao comportamento esperado do preço da opção.
 
-\subsection{Tempo Restante até o Vencimento ($\tau$)}
+\subsubsection{Análise dos resultados da variação do tempo até o vencimento ($\tau$)}
 \label{subsec:resultados_tau}
+O primeiro experimento univariado examinou as expressões simbólicas obtidas pelo PySR em função do tempo até o vencimento da opção, mantendo-se constantes os demais parâmetros do modelo de Black-Scholes. A análise dos resultados considera a estrutura matemática das expressões selecionadas, sua complexidade e a correspondência de seus termos e coeficientes com o comportamento analítico da função de precificação.
 
-% 1. Apresentação da expressão selecionada pelo PySR
-% 2. Equações 6, 14 e 16
-% 3. Comparação com a expansão de Puiseux
-% 4. Tabela dos coeficientes teóricos e encontrados
-% 5. Comparação dos erros e complexidades
-% 6. Discussão dos resultados
+A variável $\tau$ apresenta particular interesse para essa investigação, uma vez que, na condição em que o preço do ativo coincide com o preço de exercício, a expansão assintótica de Black-Scholes para prazos próximos de zero envolve potências fracionárias do tempo, especialmente termos proporcionais a ($\sqrt{\tau}$) e ($\tau^{3/2}$). Essa característica permite utilizar a expansão de Puiseux como referência para interpretar as expressões encontradas, examinando possíveis correspondências entre seus termos dominantes e coeficientes.
+
+A princípio são apresentadas as expressões selecionadas, considerando suas estruturas e complexidades. Posteriormente, são analisados seus erros de aproximação e seu comportamento nos intervalos de treinamento e extrapolação. Por fim, a comparação com os coeficientes da expansão analítica permite discutir em que medida as expressões identificadas apresentam características matemáticas compatíveis com a função de Black-Scholes.
+
+O treinamento univariado em função do tempo até o vencimento resultou em 20 expressões registradas no conjunto de soluções do PySR, apresentando diferentes níveis de complexidade simbólica. Para a discussão, foram destacadas expressões com estruturas matemáticas distintas, considerando a presença de termos associados à expansão assintótica de Black-Scholes e seu comportamento no domínio de extrapolação. A análise busca examinar a correspondência entre os termos e coeficientes identificados pela regressão simbólica e aqueles obtidos analiticamente, bem como as limitações introduzidas pelo aumento da complexidade das expressões. O conjunto completo das equações é apresentado no apêndice~\ref{ap:expressoes_tau}, enquanto as expressões discutidas em maior detalhe são apresentadas a seguir.
+Dentre as 20 expressões registradas no conjunto de soluções do PySR, foram selecionadas cinco para uma análise mais detalhada, considerando diferenças em suas estruturas algébricas, a presença de termos associados à expansão de Puiseux e a complexidade simbólica. A Tabela~\ref{tab:tau_expressoes} apresenta as expressões escolhidas e suas principais características.
 
 
-\subsection{Taxa Livre de Risco ($r$)}
-\label{subsec:resultados_r}
+\begin{table}[htbp]
+\centering
+\caption{Expressões selecionadas no experimento
+univariado de $\tau$.}
+\label{tab:tau_expressoes}
+\begin{tabular}{c c p{8cm}}
+\hline
+\textbf{Expressão} &
+\textbf{Complexidade} &
+\textbf{Característica matemática} \\
+\hline
+$\hat{C}_3$ & 4 &
+Presença do termo $\sqrt{\tau}$ \\
 
-% 1. Expressão selecionada pelo PySR
-% 2. Equações 8, 10, 14 e demais relevantes
-% 3. Comparação com a expansão de Taylor
-% 4. Tabela dos coeficientes
-% 5. MAE, MSE, RMSE e complexidade
-% 6. Discussão da recuperação estrutural
+$\hat{C}_6$ & 8 &
+Combinação dos termos $\sqrt{\tau}$ e $\tau$ \\
+
+$\hat{C}_9$ & 14 &
+Inclusão do termo quadrático $\tau^2$ \\
+
+$\hat{C}_{15}$ & 24 &
+Estrutura não linear envolvendo a função erro \\
+
+$\hat{C}_{16}$ & 27 &
+Expressão selecionada pelo critério do PySR,
+com estrutura não linear mais complexa \\
+\hline
+\end{tabular}
+
+\end{table}
+Para aprofundar a interpretação matemática das expressões selecionadas, é necessário estabelecer uma referência analítica que permita examinar não apenas a presença de determinados termos algébricos, mas também a correspondência de seus coeficientes com aqueles derivados da fórmula de Black--Scholes. Para isso, considera-se a expansão assintótica do preço de uma opção europeia de compra em torno de $\tau=0$, na condição \textit{at the money}, em que $S=K$. Nessa situação, o valor intrínseco da opção é nulo e seu preço tende a zero à medida que o vencimento se aproxima. O comportamento dominante do preço é proporcional à raiz quadrada do tempo, característica associada à contribuição da volatilidade para o valor temporal da opção. Como apresentado na fundamentação teórica, o preço de Black--Scholes pode ser representado, até a ordem $\tau^2$, por
+
+\begin{equation}
+\label{eq:tau_teorico}
+\begin{aligned}
+C_{BS}(\tau) ={}&
+\frac{S\sigma}{\sqrt{2\pi}}\sqrt{\tau}
++\frac{Sr}{2}\tau\\
+&+\frac{S}{\sqrt{2\pi}}
+\left(
+\frac{r^2}{2\sigma}
+-\frac{r\sigma}{2}
+-\frac{\sigma^3}{24}
+\right)\tau^{3/2}\\
+&-\frac{Sr^2}{4}\tau^2
++\mathcal{O}(\tau^{5/2}),
+\qquad S=K.
+\end{aligned}
+\end{equation}
+
+Essa representação evidencia a contribuição de diferentes parâmetros para o comportamento local da função. O coeficiente do termo dominante, $S\sigma/\sqrt{2\pi}$, depende diretamente do preço do ativo e da volatilidade, enquanto o coeficiente linear, $Sr/2$, incorpora a influência da taxa livre de risco. Os termos de ordens superiores expressam combinações adicionais entre taxa de juros e volatilidade, contribuindo para os ajustes da aproximação conforme o prazo até o vencimento aumenta. Assim, a comparação com esses coeficientes permite avaliar se as expressões encontradas pelo PySR reproduzem características da estrutura analítica de Black--Scholes, e não apenas valores próximos de precificação. Ao levar em conta os parâmetros utilizados no experimento, $S=K=100$, $r=0{,}05$ e $\sigma=0{,}20$, a substituição na Equação~\ref{eq} resulta em
+
+\begin{equation}
+\label{eq:tau_teorico_numerico}
+\begin{aligned}
+C_{BS}(\tau) \approx{}&
+\frac{100(0{,}20)}{\sqrt{2\pi}}\sqrt{\tau}
++\frac{100(0{,}05)}{2}\tau\\
+&+\frac{100}{\sqrt{2\pi}}
+\left(
+\frac{0{,}05^2}{2(0{,}20)}
+-\frac{0{,}05(0{,}20)}{2}
+-\frac{0{,}20^3}{24}
+\right)\tau^{3/2}\\
+&-\frac{100(0{,}05)^2}{4}\tau^2.
+\end{aligned}
+\end{equation}
+
+Efetuando os cálculos, obtém-se a seguinte aproximação numérica:
+
+\begin{equation}
+\label{eq:tau_teorico_BS_numerico}
+\boxed{
+\begin{aligned}
+C_{BS}(\tau)\approx{}&
+7{,}978845608\sqrt{\tau}
++2{,}500000000\tau\\
+&+0{,}036569709\tau^{3/2}
+-0{,}062500000\tau^2.
+\end{aligned}
+}
+\end{equation}
+Os coeficientes apresentados correspondem aos valores calculados pela função \texttt{black\_scholes\_asymptotic\_tau}, utilizada como referência analítica na investigação. A partir dessa expressão, torna-se possível comparar quantitativamente os termos identificados pelo PySR com aqueles previstos teoricamente. Para isso, as expressões simbólicas selecionadas foram reorganizadas, quando possível, em potências de $\tau$, permitindo identificar os coeficientes associados às ordens $\tau^{1/2}$, $\tau$, $\tau^{3/2}$ e $\tau^2$.
+
+A primeira expressão considerada, $\widehat{C}_3(\tau)=9{,}706084\sqrt{\tau}$, apresenta a mesma dependência funcional dominante da expansão teórica, indicando que o algoritmo identificou a presença da raiz quadrada do tempo como componente relevante da precificação. Entretanto, seu coeficiente é aproximadamente $21{,}65\%$ superior ao valor analítico de $7{,}978845608$. Além disso, a ausência dos demais termos impede que essa expressão represente as correções de ordens superiores. Portanto, embora sua estrutura seja compatível com o comportamento dominante esperado, a correspondência matemática permanece limitada.
+
+A expressão $\widehat{C}_6$, por sua vez, apresenta uma estrutura mais próxima dos primeiros termos da expansão:
+
+\begin{equation}
+\widehat{C}_6(\tau)=
+7{,}9991174\sqrt{\tau}
++2{,}4633405\tau.
+\end{equation}
+
+Nesse caso, a diferença relativa do coeficiente de $\sqrt{\tau}$ em relação ao valor teórico é de aproximadamente $0{,}25\%$, enquanto o coeficiente linear apresenta diferença de $1{,}47\%$. A redução dessas diferenças em comparação com $\widehat{C}_3$ indica uma maior correspondência entre os dois primeiros coeficientes da expressão simbólica e os previstos analiticamente. Esse resultado é relevante porque a inclusão do termo linear permite representar uma contribuição que, na expansão teórica, está associada à taxa livre de risco, ainda que o coeficiente obtido pelo PySR não deva ser interpretado como uma identificação independente desse parâmetro.
+
+A expressão $\widehat{C}_9$ introduz um termo de ordem quadrática, podendo ser reorganizada como
+
+\begin{equation}
+\widehat{C}_9(\tau)=
+7{,}9740515\sqrt{\tau}
++2{,}5235324\tau
+-0{,}04625441\tau^2.
+\end{equation}
+
+O coeficiente dominante apresenta diferença relativa de aproximadamente $0{,}06\%$ em relação ao valor teórico, enquanto o coeficiente linear difere em cerca de $0{,}94\%$. Observa-se, ainda, que o termo quadrático possui sinal negativo, em concordância com a expansão analítica, embora sua magnitude seja aproximadamente $26\%$ inferior à referência. Entretanto, a expressão não apresenta o termo intermediário $\tau^{3/2}$, cujo coeficiente teórico é positivo e igual a $0{,}036569709$. Desse modo, a maior proximidade de alguns coeficientes não representa uma recuperação completa da estrutura de Puiseux.
+
+A expressão $\widehat{C}_{15}$ apresenta uma composição algébrica mais elaborada, incorporando a função erro, além de potências inteiras e fracionárias de $\tau$. Sua comparação com a expansão teórica exige considerar o desenvolvimento local de $\operatorname{erf}(\sqrt{\tau})$ em torno de zero. Após essa expansão e a organização dos termos até a ordem $\tau^2$, obtém-se
+
+\begin{equation}
+\begin{aligned}
+\widehat{C}_{15}(\tau)\approx{}&
+7{,}9779887\sqrt{\tau}
++2{,}509249714\tau\\
+&+0{,}003487696\tau^2
++\mathcal{O}(\tau^{5/2}).
+\end{aligned}
+\end{equation}
+
+O coeficiente dominante apresenta diferença relativa de aproximadamente $0{,}011\%$, a menor entre as quatro expressões consideradas nesta comparação. O coeficiente linear também permanece próximo do valor analítico, com diferença aproximada de $0{,}37\%$. Contudo, essa proximidade não se estende integralmente aos termos de ordem superior: o coeficiente de $\tau^2$ é positivo, enquanto o coeficiente teórico é negativo, e o termo $\tau^{3/2}$ permanece ausente até a ordem examinada. Esse contraste mostra que uma expressão mais complexa pode apresentar elevada correspondência nos termos dominantes sem necessariamente preservar os coeficientes subsequentes da expansão analítica.
+
+A Tabela~\ref{tab} sintetiza essa comparação, considerando os coeficientes das expansões locais das expressões selecionadas.
+
+\begin{table}[htbp]
+\centering
+\caption{Comparação entre os coeficientes teóricos da expansão de Puiseux e os coeficientes das expressões simbólicas selecionadas.}
+\label{tab}
+\small
+\begin{tabular}{lrrrr}
+\hline
+\textbf{Expressão} &
+$\boldsymbol{\tau^{1/2}}$ &
+$\boldsymbol{\tau}$ &
+$\boldsymbol{\tau^{3/2}}$ &
+$\boldsymbol{\tau^2}$ \\
+\hline
+Black--Scholes & 7,978846 & 2,500000 & 0,036570 & -0,062500 \\
+$\widehat{C}_3$ & 9,706084 & 0 & 0 & 0 \\
+$\widehat{C}_6$ & 7,999117 & 2,463341 & 0 & 0 \\
+$\widehat{C}_9$ & 7,974052 & 2,523532 & 0 & -0,046254 \\
+$\widehat{C}_{15}$ & 7,977989 & 2,509250 & 0 & 0,003488 \\
+$\widehat{C}_{16}$ & \multicolumn{4}{c}{Não admite expansão real em torno de $\tau=0$} \\
+\hline
+\end{tabular}
+\end{table}
+
+A avaliação da validade numérica das expressões no conjunto de extrapolação revelou diferenças importantes entre as soluções identificadas pelo PySR. Conforme apresentado na Tabela~\ref{tab}, as expressões $\widehat{C}_3$, $\widehat{C}6$, $\widehat{C}9$ e $\widehat{C}{15}$ produziram previsões numericamente válidas para todas as 36 observações analisadas. Em contrapartida, a expressão $\widehat{C}{16}$ apresentou 15 previsões inválidas, correspondentes a 41,67% do conjunto de teste.
+
+Ao considerar o conjunto completo de soluções, observa-se que as expressões de 1 a 15 mantiveram validade numérica integral nos pontos avaliados, enquanto as expressões de 16 a 20 apresentaram o mesmo número de previsões inválidas. Esse comportamento evidencia uma limitação associada às estruturas matemáticas de maior complexidade encontradas nesse experimento, particularmente pela presença de operações cujos domínios de definição podem restringir a avaliação das expressões para determinados valores do tempo até o vencimento.
+
+Esse resultado é relevante para a interpretação matemática das soluções, pois demonstra que a complexidade simbólica e a qualidade do ajuste no treinamento não são suficientes para assegurar a validade das expressões em regiões não utilizadas na estimação. Assim, a análise do domínio de definição constitui um critério complementar às métricas de erro e à comparação dos coeficientes da expansão de Puiseux, permitindo examinar não apenas a proximidade numérica das aproximações, mas também sua consistência matemática.
+
+A comparação evidencia que as expressões de maior complexidade examinadas apresentaram coeficientes dominantes progressivamente mais próximos da referência analítica, embora essa tendência não implique, necessariamente, uma relação geral entre complexidade e recuperação da estrutura de Black--Scholes. Em particular, a ausência do termo $\tau^{3/2}$ nas quatro expressões indica que a regressão simbólica não reproduziu integralmente os coeficientes da expansão até a ordem considerada. Essa diferença é importante para a interpretação dos resultados: uma expressão pode aproximar adequadamente os primeiros termos ou os valores numéricos da função sem apresentar a mesma estrutura assintótica em ordens superiores.
+
+A expressão $\widehat{C}_{16}$, selecionada
+automaticamente pelo critério do PySR,
+apresenta uma estrutura distinta das demais,
+sendo dada por
+
+\begin{equation}
+\label{eq:tau_c16}
+\begin{aligned}
+\widehat{C}_{16}(\tau) ={}&
+7{,}9778585\sqrt{\tau}
++2{,}50930063274352\tau\\
+&-0{,}045547683\tau^{3/2}
+\operatorname{erf}(\sqrt{\tau})\\
+&\quad \times
+\sqrt{
+\tau
+-0{,}05830332
+\operatorname{erf}\left(\frac{\tau}{\sqrt{2}}\right)
+-0{,}05830332
+}.
+\end{aligned}
+\end{equation} ,e, por fim, a expressão $\widehat{C}_{16}$ requer uma análise distinta. Como a raiz quadrada de um número negativo não está definida no conjunto dos números reais, a expressão deixa de produzir preços reais nessa região, resultando em 15 previsões inválidas entre as 36 observações de extrapolação. Essa limitação contrasta com o comportamento teórico de Black--Scholes, cuja expansão de Puiseux permanece real para $\tau\geq0$ e cujo preço, na condição \textit{at the money}, tende a zero quando $\tau\to0^+$. No conjunto de extrapolação, essa restrição resultou em 15 previsões inválidas entre as 36 observações avaliadas. Assim, embora tenha sido selecionada pelo critério de desempenho do PySR, a expressão apresenta uma limitação de domínio que compromete sua interpretação financeira para prazos suficientemente reduzidos.
+
+A análise dos coeficientes da expansão de Puiseux e das restrições de domínio permite identificar correspondências e limitações matemáticas das expressões obtidas. Entretanto, essas características não determinam isoladamente a precisão das aproximações ao longo do intervalo considerado. Para complementar a investigação, a Figura~\ref{fig:tau_precos} apresenta a comparação entre os preços teóricos de Black--Scholes e aqueles estimados pelas expressões simbólicas selecionadas, distinguindo os domínios de treinamento e extrapolação. Essa representação permite examinar se a proximidade dos coeficientes analíticos está acompanhada de um comportamento numérico consistente, bem como identificar eventuais divergências entre as aproximações.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\textwidth]{Figs/imagem_tau.png}
+    \caption{Comparação entre os preços teóricos de
+    Black--Scholes e as aproximações simbólicas
+    no experimento univariado de $\tau$.}
+    \label{fig:tau_precos}
+\end{figure}
+ A Figura~\ref{fig:tau_precos} apresenta a comparação entre os preços teóricos de Black--Scholes e as aproximações produzidas pelas cinco expressões simbólicas selecionadas, com destaque para a região de extrapolação. Observa-se que a expressão $\widehat{C}_3$ apresenta desvios perceptíveis em relação à função teórica, particularmente para prazos menores, nos quais tende a superestimar o preço da opção. Esse comportamento é consistente com a diferença identificada anteriormente entre seu coeficiente dominante de $\sqrt{\tau}$ e o coeficiente correspondente na expansão de Puiseux.
+
+Em contrapartida, as expressões $\widehat{C}_6$, $\widehat{C}_9$ e $\widehat{C}_{15}$ apresentam elevada proximidade visual com a curva de Black--Scholes, mesmo possuindo estruturas algébricas e complexidades distintas. Tal resultado evidencia que diferentes representações simbólicas podem produzir valores numericamente semelhantes sem necessariamente reproduzir os mesmos coeficientes da expansão analítica. A expressão $\widehat{C}_{16}$ também acompanha a referência nos pontos em que está definida, mas sua curva é interrompida na região de prazos reduzidos em decorrência da restrição de domínio anteriormente demonstrada. Dessa forma, a comparação gráfica reforça a necessidade de avaliar conjuntamente a precisão numérica, a estrutura matemática e a validade das expressões no domínio considerado.
+
+A avaliação quantitativa das expressões complementa as diferenças estruturais identificadas na comparação com a expansão de Puiseux. Conforme apresentado na Tabela~\ref{tab:tau_metricas}, a expressão $\widehat{C}_3$ apresentou o maior erro absoluto médio entre as soluções analisadas, tanto no treinamento ($0{,}165302$) quanto na extrapolação ($0{,}259784$). Esse comportamento é compatível com a diferença observada entre seu coeficiente dominante de $\sqrt{\tau}$ e o valor previsto analiticamente, além da ausência dos termos de ordens superiores presentes na expansão de Black--Scholes.
+
+Para complementar a avaliação quantitativa, a Figura~\ref{fig:erro_absoluto_tau} apresenta a distribuição dos erros absolutos das expressões selecionadas em função do tempo até o vencimento. Diferentemente das métricas agregadas, essa representação permite identificar as regiões em que ocorrem os maiores desvios e examinar como o comportamento numérico das aproximações varia entre os domínios de treinamento e extrapolação.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\textwidth]{Figs/erro_absoluto_tau.png}
+    \caption{Erros absolutos das expressões simbólicas selecionadas em função do tempo até o vencimento no experimento univariado de $\tau$.}
+    \label{fig:erro_absoluto_tau}
+\end{figure}
+
+
+\begin{table}[htbp]
+\centering
+\caption{Métricas de erro das expressões simbólicas
+selecionadas no experimento univariado de $\tau$.}
+\label{tab:tau_metricas}
+\small
+\setlength{\tabcolsep}{5pt}
+
+\begin{tabular}{c l c r r r}
+\hline
+\textbf{Equação} &
+\textbf{Região} &
+\textbf{Válidas} &
+\textbf{MAE} &
+\textbf{MSE} &
+\textbf{RMSE} \\
+\hline
+
+$\widehat{C}_3$ &
+Treinamento & 144/144 &
+0,165302 & 0,035476 & 0,188351 \\
+
+&
+Extrapolação & 36/36 &
+0,259784 & 0,070067 & 0,264702 \\
+
+\hline
+
+$\widehat{C}_6$ &
+Treinamento & 144/144 &
+0,000710 & 0,000001 & 0,000825 \\
+
+&
+Extrapolação & 36/36 &
+0,002149 & 0,000005 & 0,002170 \\
+
+\hline
+
+$\widehat{C}_9$ &
+Treinamento & 144/144 &
+0,000019 & $<5\times10^{-7}$ & 0,000022 \\
+
+&
+Extrapolação & 36/36 &
+0,000199 & $<5\times10^{-7}$ & 0,000213 \\
+
+\hline
+
+$\widehat{C}_{15}$ &
+Treinamento & 144/144 &
+0,000001 & $<5\times10^{-7}$ & 0,000001 \\
+
+&
+Extrapolação & 36/36 &
+0,000007 & $<5\times10^{-7}$ & 0,000010 \\
+
+\hline
+
+$\widehat{C}_{16}$ &
+Treinamento & 144/144 &
+0,000001 & $<5\times10^{-7}$ & 0,000001 \\
+
+&
+Extrapolação & 21/36 &
+0,000001 & $<5\times10^{-7}$ & 0,000001 \\
+
+\hline
+\end{tabular}
+
+\vspace{0.3cm}
+
+\begin{minipage}{0.95\textwidth}
+\footnotesize
+\textit{Nota:} A coluna ``Válidas'' apresenta o número
+de previsões numericamente válidas em relação ao
+total de observações. As métricas foram calculadas
+apenas sobre as previsões válidas. Os valores de
+MSE apresentados como inferiores a $5\times10^{-7}$
+correspondem àqueles exibidos como zero após
+arredondamento a seis casas decimais.
+\end{minipage}
+
+\end{table}
+
+
+Observa-se que a expressão $\widehat{C}_3$ apresenta erros significativamente superiores aos das demais soluções, com variações acentuadas ao longo do intervalo analisado. Esse comportamento reforça a limitação de uma aproximação composta exclusivamente pelo termo $\sqrt{\tau}$, cujo coeficiente também apresenta diferença expressiva em relação ao valor previsto pela expansão de Puiseux. Em contrapartida, os erros das expressões $\widehat{C}_6$, $\widehat{C}_9$ e $\widehat{C}_{15}$ permanecem próximos de zero na escala apresentada, embora possuam magnitudes distintas, conforme demonstrado pelas métricas da Tabela~\ref{tab:tau_metricas}. A expressão $\widehat{C}_{16}$ também apresenta erros reduzidos nos pontos em que está definida, mas sua ausência em parte da região de extrapolação deve ser interpretada como uma restrição de domínio, e não como evidência de maior precisão. Dessa forma, a distribuição dos erros complementa a comparação dos coeficientes teóricos ao evidenciar que a proximidade numérica e a validade matemática constituem aspectos distintos da interpretação das expressões simbólicas.
+
+A incorporação de estruturas matemáticas adicionais foi acompanhada por reduções expressivas dos erros nas demais expressões. A equação $\widehat{C}_6$, composta pelos termos $\sqrt{\tau}$ e $\tau$, apresentou MAE de $0{,}002149$ na extrapolação, enquanto $\widehat{C}_9$ reduziu esse valor para $0{,}000199$. A expressão $\widehat{C}_{15}$ apresentou o menor erro de extrapolação entre as soluções válidas em todo o conjunto de teste, com MAE de $0{,}000007$. Entretanto, essa elevada precisão não corresponde à recuperação integral dos coeficientes teóricos, uma vez que, conforme discutido anteriormente, permanecem diferenças nos termos de ordens superiores da expansão de Puiseux. Dessa forma, os resultados evidenciam que a proximidade numérica dos preços não implica necessariamente uma correspondência completa entre as estruturas analíticas das funções.
+
+A expressão $\widehat{C}_{16}$ apresentou erro reduzido nos pontos em que foi possível avaliá-la, mas apenas 21 das 36 observações de extrapolação produziram previsões reais. Assim, seu MAE de $0{,}000001$ foi calculado sobre um subconjunto do domínio de teste, não sendo diretamente comparável aos resultados das demais expressões. Essa diferença de cobertura reforça a importância de examinar a validade matemática das soluções juntamente com suas métricas de erro, especialmente quando o aumento da complexidade simbólica introduz operações que restringem o domínio de definição.
+
+\subsection{Análise dos resultados da taxa livre de risco ($r$)}
+
+A análise da taxa livre de risco $r$ permite examinar a interpretação matemática das expressões identificadas pelo PySR a partir de sua correspondência com a expansão de Taylor da função de Black--Scholes. Diferentemente do comportamento assintótico investigado para o tempo até o vencimento, a dependência do preço em relação à taxa de juros pode ser analisada localmente por meio de uma expansão em potências inteiras de $r$. Essa representação fornece uma referência para a comparação dos coeficientes das expressões simbólicas, particularmente daqueles associados ao preço da opção, à sensibilidade Rho e à curvatura da função em relação à taxa livre de risco.
+
+Relmebrando a expansão de Taylor de segunda ordem em torno de $r=0$, mantendo-se constantes os demais parâmetros, a função de precificação de Black--Scholes pode ser expressa por
+
+\begin{equation}
+\label{eq}
+C_{BS}(r)=C_{BS}(0)
++\left.\frac{\partial C_{BS}}{\partial r}\right|{r=0}r
++\frac{1}{2}
+\left.\frac{\partial^2 C{BS}}{\partial r^2}\right|_{r=0}r^2
++\mathcal{O}(r^3).
+\end{equation}
+
+Nessa representação, o termo constante corresponde ao preço teórico da opção quando a taxa livre de risco é nula. O coeficiente linear representa a sensibilidade Rho avaliada em $r=0$, indicando a variação local do preço da opção em relação à taxa de juros. Por sua vez, o coeficiente quadrático corresponde à metade da segunda derivada em relação a $r$, caracterizando a curvatura local da função de precificação. Assim, a comparação desses coeficientes com os obtidos pela regressão simbólica permite investigar tanto a estrutura matemática das aproximações quanto sua correspondência com propriedades financeiras do modelo.
+
+Para uma opção europeia de compra sem pagamento de dividendos, na condição $S=K$, os coeficientes da expansão podem ser obtidos analiticamente, resultando em
+
+\begin{equation}
+\label{eq}
+\begin{aligned}
+C_{BS}(r) ={}&
+S\left[2N\left(\frac{\sigma\sqrt{\tau}}{2}\right)-1\right]\
+&+K\tau N\left(-\frac{\sigma\sqrt{\tau}}{2}\right)r\
+&+\frac{K\tau}{2}
+\left[
+\frac{\sqrt{\tau}}{\sigma}
+\phi\left(\frac{\sigma\sqrt{\tau}}{2}\right)
+-\tau N\left(-\frac{\sigma\sqrt{\tau}}{2}\right)
+\right]r^2\
+&+\mathcal{O}(r^3),
+\end{aligned}
+\end{equation}
+
+em que $N(\cdot)$ representa a função de distribuição acumulada da normal padrão e $\phi(\cdot)$ sua função densidade de probabilidade.
+
+No experimento, foram utilizados os parâmetros $S=K=100$, $\sigma=0{,}20$ e $\tau=180/252$. Definindo $d=0{,}20\sqrt{180/252}/2$, a substituição desses valores na expansão teórica fornece
+
+\begin{equation}
+\label{eq}
+\begin{aligned}
+C_{BS}(r)\approx{}&
+100[2N(d)-1]\
+&+100\left(\frac{180}{252}\right)N(-d),r\
+&+50\left(\frac{180}{252}\right)
+\left[
+\frac{\sqrt{180/252}}{0{,}20}\phi(d)
+-\frac{180}{252}N(-d)
+\right]r^2.
+\end{aligned}
+\end{equation}
+
+Efetuando os cálculos, obtém-se a seguinte aproximação numérica:
+
+\begin{equation}
+\label{eq}
+\boxed{
+C_{BS}(r)\approx
+6{,}735336103
++33{,}308808534r
++48{,}097879600r^2.
+}
+\end{equation}
+
+Os coeficientes numéricos fornecem uma referência para a interpretação das expressões encontradas pelo PySR. O valor constante de aproximadamente $6{,}735336$ corresponde ao preço teórico da opção em $r=0$, enquanto o coeficiente linear de $33{,}308809$ representa sua sensibilidade inicial à taxa livre de risco. O coeficiente quadrático positivo, por sua vez, indica convexidade local da função em relação a $r$ no ponto de expansão. Essa propriedade permite examinar se as expressões simbólicas identificadas reproduzem não apenas a tendência de crescimento do preço com a taxa de juros, mas também aspectos de sua curvatura.
+
+O treinamento univariado resultou em 21 expressões registradas no conjunto de soluções do PySR, abrangendo diferentes níveis de complexidade e estruturas algébricas. Entre elas, encontram-se representações constantes, lineares, polinomiais e expressões não lineares envolvendo funções exponenciais e funções erro. Para a discussão, foram selecionadas cinco soluções com características matemáticas distintas, de modo a investigar a correspondência de seus coeficientes locais com os valores teóricos obtidos pela expansão de Taylor. A análise considera também a complexidade simbólica e o comportamento numérico das expressões nos intervalos de treinamento e extrapolação. O conjunto completo das 21 expressões é apresentado no apêndice, enquanto as soluções destacadas para comparação são apresentadas a seguir.
+
+
+Das 21 expressões registradas pelo PySR, foram
+selecionadas cinco soluções para uma investigação mais
+detalhada. A seleção considerou diferenças na estrutura
+algébrica, na complexidade simbólica e nas possibilidades
+de comparação com os coeficientes da expansão de Taylor.
+A Tabela~\ref{tab:r_expressoes} apresenta as expressões
+destacadas e suas principais características matemáticas. No apêndice encontram-se todas as equações que foram geradas.
+
+\begin{table}[htbp]
+\centering
+\caption{Expressões simbólicas selecionadas no experimento
+univariado da taxa livre de risco ($r$).}
+\label{tab:r_expressoes}
+\small
+\setlength{\tabcolsep}{5pt}
+
+\begin{tabular}{c c p{8cm}}
+\hline
+\textbf{Expressão} &
+\textbf{Complexidade} &
+\textbf{Característica matemática} \\
+\hline
+
+$\widehat{C}_8$ & 9 &
+Representação polinomial quadrática em $r$,
+diretamente comparável à expansão de Taylor. \\
+
+$\widehat{C}_{10}$ & 11 &
+Estrutura não linear envolvendo composição
+de funções erro. \\
+
+$\widehat{C}_{14}$ & 15 &
+Composição sucessiva de funções erro,
+com maior complexidade simbólica. \\
+
+$\widehat{C}_{20}$ & 27 &
+Combinação de termos polinomiais, exponenciais
+e funções erro. \\
+
+$\widehat{C}_{21}$ & 28 &
+Estrutura não linear composta, com termos
+exponenciais e funções erro adicionais. \\
+
+\hline
+\end{tabular}
+\end{table}
+
+Para investigar a correspondência entre as estruturas
+simbólicas identificadas e o comportamento analítico
+de Black--Scholes, as cinco expressões selecionadas
+foram expandidas em série de Taylor até a segunda
+ordem, em torno de $r=0$. Assim, cada expressão foi representada localmente por
+
+\begin{equation}
+\label{eq:r_taylor_pysr}
+\widehat{C}_i(r)=
+\widehat{a}_{0,i}
++\widehat{a}_{1,i}r
++\widehat{a}_{2,i}r^2
++\mathcal{O}(r^3).
+\end{equation}
+
+Os coeficientes obtidos foram comparados com os
+valores teóricos anteriormente calculados para
+Black--Scholes. Os resultados são apresentados
+na Tabela~\ref{tab:r_coeficientes}.
+
+\begin{table}[htbp]
+\centering
+\caption{Comparação entre os coeficientes teóricos
+de Taylor e os coeficientes locais das expressões
+simbólicas selecionadas.}
+\label{tab:r_coeficientes}
+\small
+\setlength{\tabcolsep}{7pt}
+
+\begin{tabular}{l r r r}
+\hline
+\textbf{Expressão} &
+$\boldsymbol{a_0}$ &
+$\boldsymbol{a_1}$ &
+$\boldsymbol{a_2}$ \\
+\hline
+
+Black--Scholes &
+6,735336 &
+33,308809 &
+48,097880 \\
+
+$\widehat{C}_8$ &
+6,733623 &
+33,462875 &
+44,517334 \\
+
+$\widehat{C}_{10}$ &
+6,733880 &
+33,440700 &
+44,952359 \\
+
+$\widehat{C}_{14}$ &
+6,734978 &
+33,345894 &
+46,823593 \\
+
+$\widehat{C}_{20}$ &
+6,735314 &
+33,311368 &
+48,008083 \\
+
+$\widehat{C}_{21}$ &
+6,735316 &
+33,311146 &
+48,016484 \\
+
+\hline
+\end{tabular}
+\end{table}
+
+A comparação dos coeficientes da expansão de Taylor também permite examinar a correspondência entre as derivadas das expressões simbólicas e as sensibilidades analíticas de Black--Scholes. Para uma opção europeia de compra sem pagamento de dividendos, a primeira derivada do preço em relação à taxa livre de risco corresponde à sensibilidade Rho, definida por
+
+\begin{equation}
+\label{eq:rho_bs}
+\rho_{BS}(r)=
+\frac{\partial C_{BS}}{\partial r}
+=
+K\tau e^{-r\tau}N(d_2),
+\end{equation}
+
+em que $d_2$ é definido pela formulação original de Black--Scholes. Como os fatores dessa expressão são não negativos para os parâmetros considerados, a sensibilidade Rho é positiva, indicando que o aumento da taxa livre de risco, mantendo-se constantes os demais parâmetros, eleva o preço teórico da opção de compra.
+
+A segunda derivada caracteriza a variação de Rho em relação à própria taxa de juros, permitindo examinar a curvatura local da função de precificação:
+
+\begin{equation}
+\label{eq:curvatura_r_bs}
+\frac{\partial^2 C_{BS}}{\partial r^2}
+=
+K\tau e^{-r\tau}
+\left[
+\frac{\sqrt{\tau}}{\sigma}\phi(d_2)
+-\tau N(d_2)
+\right].
+\end{equation}
+
+No presente experimento, a avaliação dessas derivadas em $r=0$ fornece $\rho_{BS}(0)=33{,}308809$ e $C''_{BS}(0)=96{,}195759$. A segunda derivada positiva indica que, nas proximidades do ponto de expansão, a sensibilidade do preço à taxa livre de risco aumenta conforme a própria taxa cresce. Essa propriedade é local, não constituindo uma afirmação de convexidade para todas as configurações possíveis de Black--Scholes.
+
+Nas expressões identificadas pelo PySR, as derivadas no ponto de expansão podem ser obtidas diretamente dos coeficientes de Taylor, uma vez que $\widehat{C}_i'(0)=\widehat{a}_{1,i}$ e $\widehat{C}_i''(0)=2\widehat{a}_{2,i}$. A expressão $\widehat{C}_8$, por exemplo, apresenta primeira derivada igual a $33{,}462875$ e segunda derivada igual a $89{,}034668$, correspondendo a diferenças relativas de aproximadamente $0{,}46\%$ e $7{,}44\%$ em relação aos valores teóricos. Já a expressão $\widehat{C}_{21}$ apresenta valores de $33{,}311146$ e $96{,}032968$, com diferenças relativas de aproximadamente $0{,}007\%$ e $0{,}17\%$, respectivamente.
+
+Esses resultados evidenciam que as expressões de maior complexidade analisadas apresentam maior correspondência não apenas com os preços teóricos, mas também com as sensibilidades locais da função de Black--Scholes. Entretanto, a proximidade das derivadas em $r=0$ não garante que essa correspondência seja preservada em todo o intervalo de variação da taxa de juros, sendo necessária a avaliação do comportamento das expressões nos demais pontos considerados.
+
+A correspondência entre os coeficientes até a segunda ordem não garante que as expressões apresentem o mesmo comportamento de Black--Scholes em todo o domínio analisado, faz-se assim necessario avaliar as métricas de erro e do comportamento em extrapolação para complementar a interpretação matemática e financeira das soluções.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\textwidth]{Figs/analise_r_.png}
+    \caption{Comparação dos preços em função da taxa livre de risco.}
+    \label{fig:analise_r_}
+\end{figure}
+
+
+Complementando a comparação dos coeficientes da expansão de Taylor, a Figura~\ref{fig:analise_r_} apresenta os preços teóricos de Black--Scholes e as aproximações obtidas pelo PySR, juntamente com os desvios de precificação em relação à função de referência. Essa representação permite examinar o comportamento das expressões ao longo dos intervalos de treinamento e extrapolação.
+
+A distribuição desses desvios evidencia diferenças importantes entre as expressões. As soluções $\widehat{C}8$ e $\widehat{C}{10}$ apresentam erros positivos crescentes na região de extrapolação, indicando uma tendência de superestimação dos preços para taxas de juros mais elevadas. A expressão $\widehat{C}{14}$, por sua vez, apresenta desvios negativos de menor magnitude nessa região. Em contrapartida, as expressões $\widehat{C}{20}$ e $\widehat{C}_{21}$ permanecem visualmente próximas de zero na escala apresentada, sugerindo maior precisão numérica ao longo do domínio avaliado. Esse comportamento é consistente com a comparação dos coeficientes de Taylor, na qual essas duas expressões apresentaram maior proximidade com os valores teóricos associados ao preço em $r=0$, à sensibilidade Rho e à curvatura local da função.
+
+A comparação também evidencia uma distinção relevante para a interpretabilidade matemática dos resultados. Apesar de $\widehat{C}{20}$ e $\widehat{C}{21}$ apresentarem estruturas não polinomiais, envolvendo funções exponenciais e funções erro, suas expansões locais possuem coeficientes próximos daqueles derivados teoricamente. Isso indica que a correspondência com o comportamento local de Black--Scholes pode ocorrer mesmo quando a expressão simbólica não reproduz explicitamente a forma de um polinômio de Taylor. Entretanto, essa correspondência deve ser interpretada em conjunto com as métricas de erro e com a complexidade das expressões, uma vez que a proximidade dos primeiros coeficientes não garante equivalência matemática global entre as funções.
+Os resultados, apresentados na Tabela~\ref{tab}, permitem quantificar as diferenças de precisão entre as soluções e examinar se a maior correspondência com os coeficientes analíticos está associada a menores desvios de precificação. A expansão de Taylor de segunda ordem também foi considerada como referência adicional, permitindo comparar o comportamento de uma aproximação analítica local com o das expressões identificadas por regressão simbólica.
+
+
+\begin{table}[htbp]
+\centering
+\caption{Comparação dos erros de treinamento e extrapolação
+das expressões simbólicas selecionadas para a taxa livre
+de risco ($r$).}
+\label{tab:r_metricas}
+\small
+\setlength{\tabcolsep}{10pt}
+\renewcommand{\arraystretch}{1.2}
+
+\begin{tabular}{c c r r}
+\hline
+\textbf{Expressão} &
+\textbf{Complexidade} &
+\textbf{MAE Treinamento} &
+\textbf{MAE Extrapolação} \\
+\hline
+
+$\widehat{C}_8$  & 9  & 0,00019168 & 0,00231526 \\
+$\widehat{C}_{10}$ & 11 & 0,00015640 & 0,00182007 \\
+$\widehat{C}_{14}$ & 15 & 0,00001797 & 0,00018025 \\
+$\widehat{C}_{20}$ & 27 & 0,00000123 & 0,00003146 \\
+$\widehat{C}_{21}$ & 28 & 0,00000116 & 0,00002349 \\
+
+\hline
+\end{tabular}
+\end{table}
+
+Os resultados apresentados na Tabela~\ref{tab:r_metricas} evidenciam diferenças de precisão entre as expressões selecionadas, tanto no treinamento quanto na extrapolação. Observa-se que todas as soluções apresentaram aumento do erro absoluto médio fora do intervalo utilizado na estimação, embora a magnitude desse aumento varie entre as expressões. A equação $\widehat{C}8$, de estrutura polinomial quadrática, apresentou MAE de $0{,}00231526$ na extrapolação, enquanto $\widehat{C}{14}$ reduziu esse valor para $0{,}00018025$. Esse comportamento indica que, no conjunto analisado, o aumento da complexidade simbólica foi acompanhado por melhorias na precisão numérica, ainda que tal relação não constitua uma propriedade geral da regressão simbólica.
+
+As expressões $\widehat{C}{20}$ e $\widehat{C}{21}$ apresentaram os menores erros em ambos os conjuntos, com destaque para a última, cujo MAE foi de $0{,}00000116$ no treinamento e $0{,}00002349$ na extrapolação. Esses resultados são consistentes com a comparação anterior dos coeficientes de Taylor, na qual ambas apresentaram elevada proximidade com os valores analíticos associados ao preço em $r=0$, à sensibilidade Rho e à curvatura local da função de Black--Scholes.
+
+Entretanto, a maior precisão numérica das expressões mais complexas deve ser considerada em conjunto com sua interpretabilidade matemática. A expressão $\widehat{C}8$, apesar de apresentar erros superiores, possui uma estrutura polinomial que permite identificar diretamente os termos associados à expansão de Taylor. Por outro lado, as expressões $\widehat{C}{20}$ e $\widehat{C}_{21}$ incorporam composições de funções exponenciais e funções erro, exigindo uma expansão local para evidenciar sua correspondência com os coeficientes teóricos. Dessa forma, os resultados mostram que a precisão de precificação e a facilidade de interpretação da estrutura simbólica representam critérios distintos, embora complementares, na avaliação das soluções identificadas pelo PySR.
 
 
 \subsection{Volatilidade ($\sigma$)}

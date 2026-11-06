@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.10.30)  30 OCT 2026 22:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.10.30)  6 NOV 2026 16:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -994,21 +994,12 @@ Package: appendix 2020/02/08 v1.2c extra appendix facilities
 \c@@pps=\count408
 \c@@ppsavesec=\count409
 \c@@ppsaveapp=\count410
-) (/usr/local/texlive/2026/texmf-dist/tex/latex/fncychap/fncychap.sty
-Package: fncychap 2007/07/30 v1.34 LaTeX package (Revised chapters)
-\RW=\skip137
-\mylen=\skip138
-\myhi=\skip139
-\px=\skip140
-\py=\skip141
-\pyy=\skip142
-\pxx=\skip143
 ) (/usr/local/texlive/2026/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2025-10-13 v4.24 Multi-page Table package (DPC)
-\LTleft=\skip144
-\LTright=\skip145
-\LTpre=\skip146
-\LTpost=\skip147
+\LTleft=\skip137
+\LTright=\skip138
+\LTpre=\skip139
+\LTpost=\skip140
 \LTchunksize=\count411
 \LTcapwidth=\dimen373
 \LT@head=\box101
@@ -1024,15 +1015,15 @@ Package: longtable 2025-10-13 v4.24 Multi-page Table package (DPC)
 ) (/usr/local/texlive/2026/texmf-dist/tex/latex/graphics/rotating.sty
 Package: rotating 2025/01/14 v2.16e rotated objects in LaTeX
 \c@r@tfl@t=\count416
-\rotFPtop=\skip148
-\rotFPbot=\skip149
+\rotFPtop=\skip141
+\rotFPbot=\skip142
 \rot@float@box=\box106
 \rot@mess@toks=\toks69
 ) (./abntex2cite.sty
 Package: abntex2cite 2016/02/26 v-1.9.6 abnTeX2
  (./abntex2abrev.sty)
-\minimumbiblabelwidth=\skip150
-\ABCIauxlen=\skip151
+\minimumbiblabelwidth=\skip143
+\ABCIauxlen=\skip144
 \c@ABCIaux=\count417
 \c@ABCImax=\count418
  (/usr/local/texlive/2026/texmf-dist/tex/generic/iftex/ifpdf.sty
@@ -1040,14 +1031,14 @@ Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
 ) (/usr/local/texlive/2026/texmf-dist/tex/generic/iftex/ifxetex.sty
 Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
 )
-\biblabelsep=\skip152
+\biblabelsep=\skip145
 LaTeX Info: Redefining \newblock on input line 591.
 LaTeX Info: Redefining \cite on input line 862.
 \ABCItoken=\toks70
 ) (/usr/local/texlive/2026/texmf-dist/tex/latex/colortbl/colortbl.sty
 Package: colortbl 2024/10/29 v1.0k Color table columns (DPC)
 \everycr=\toks71
-\minrowclearance=\skip153
+\minrowclearance=\skip146
 \rownum=\count419
 ) (/usr/local/texlive/2026/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
@@ -1055,7 +1046,17 @@ File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 ) (./TCC.aux
 Package babel Info: 'brazil' activates 'portuges' shorthands.
 (babel)             Reported on input line 12.
- (./cap1.aux) (./cap2.aux) (./fundamentos_reg_simbolica.aux) (./cap3.aux) (./cap4.aux) (./metodologia.aux) (./Exp_e_resultados.aux) (./resultados.aux) (./conclusoes.aux))
+ (./cap1.aux) (./cap2.aux) (./fundamentos_reg_simbolica.aux) (./cap3.aux) (./cap4.aux) (./metodologia.aux) (./Exp_e_resultados.aux
+
+LaTeX Warning: Label `eq' multiply defined.
+
+
+LaTeX Warning: Label `eq' multiply defined.
+
+
+LaTeX Warning: Label `eq' multiply defined.
+
+) (./resultados.aux) (./conclusoes.aux))
 \openout1 = `TCC.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 110.
@@ -1164,7 +1165,7 @@ Package pgfplots notification 'compat/show suggested version=true': you might be
 
 \c@lstlisting=\count427
 (./capaNew.tex
-<Figs/logoCefetCampusPetropolis.jpg, id=163, 172.9662pt x 127.1952pt>
+<Figs/logoCefetCampusPetropolis.jpg, id=187, 172.9662pt x 127.1952pt>
 File: Figs/logoCefetCampusPetropolis.jpg Graphic file (type jpg)
 <use Figs/logoCefetCampusPetropolis.jpg>
 Package pdftex.def Info: Figs/logoCefetCampusPetropolis.jpg  used on input line 6.
@@ -1200,23 +1201,23 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 60.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [2]
-<Figs/biblioteca_engcomp.jpeg, id=178, 1216.545pt x 699.61375pt>
+<Figs/biblioteca_engcomp.jpeg, id=202, 1216.545pt x 699.61375pt>
 File: Figs/biblioteca_engcomp.jpeg Graphic file (type jpg)
 <use Figs/biblioteca_engcomp.jpeg>
-Package pdftex.def Info: Figs/biblioteca_engcomp.jpeg  used on input line 95.
+Package pdftex.def Info: Figs/biblioteca_engcomp.jpeg  used on input line 96.
 (pdftex.def)             Requested size: 422.77136pt x 243.1288pt.
  [3 <./Figs/biblioteca_engcomp.jpeg>]
 File: Figs/logoCefetCampusPetropolis.jpg Graphic file (type jpg)
 <use Figs/logoCefetCampusPetropolis.jpg>
-Package pdftex.def Info: Figs/logoCefetCampusPetropolis.jpg  used on input line 111.
+Package pdftex.def Info: Figs/logoCefetCampusPetropolis.jpg  used on input line 112.
 (pdftex.def)             Requested size: 85.96559pt x 63.21585pt.
  [4] [5] [6]
-Underfull \hbox (badness 10000) in paragraph at lines 206--207
+Underfull \hbox (badness 10000) in paragraph at lines 207--208
 
  []
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 223--224
+Underfull \hbox (badness 10000) in paragraph at lines 224--225
 
  []
 
@@ -1239,7 +1240,7 @@ Overfull \hbox (6.76805pt too wide) in paragraph at lines 7--39
  []
 
 ) [11] (./Simbolos.tex)
-Overfull \hbox (1.51279pt too wide) in paragraph at lines 5--135
+Overfull \hbox (1.51279pt too wide) in paragraph at lines 5--137
 []  
  []
 
@@ -1265,7 +1266,7 @@ l.10
 pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.153 \include{cap1}
+l.155 \include{cap1}
                               % IntroduÃ§Ã£o [2]
 \openout2 = `cap2.aux'.
 
@@ -1328,9 +1329,6 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.8}) has b
                    \relax 
 l.304 \end{equation}
                      [8]
-Underfull \vbox (badness 2042) has occurred while \output is active []
-
-
 pdfTeX warning (ext4): destination with the same identifier (name{page.9}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1341,9 +1339,6 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.10}) has 
                    \relax 
 l.435 \begin{equation}
                        [10]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
 pdfTeX warning (ext4): destination with the same identifier (name{page.11}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1371,11 +1366,21 @@ Overfull \hbox (2.81258pt too wide) in paragraph at lines 820--821
 ) [17]
 \openout2 = `fundamentos_reg_simbolica.aux'.
 
- (./fundamentos_reg_simbolica.tex) [18
+ (./fundamentos_reg_simbolica.tex [18
 
 
 
-]
+] [19] [20]
+Overfull \hbox (82.02339pt too wide) in paragraph at lines 77--78
+[]\T1/ptm/m/n/12 A se-le-ção au-to-má-tica do PySR pode se-guir di-fe-ren-tes cri-té-rios. A con-fi-gu-ra-ção \T1/pcr/m/n/12 model_selection="accuracy"
+ []
+
+
+Overfull \hbox (42.73503pt too wide) in paragraph at lines 77--78
+\T1/ptm/m/n/12 pri-vi-le-gia a me-nor perda; \T1/pcr/m/n/12 model_selection="score" \T1/ptm/m/n/12 pri-vi-le-gia o maior es-core; e \T1/pcr/m/n/12 model_selection="best"
+ []
+
+[21]) [22]
 \openout2 = `cap3.aux'.
 
 
@@ -1385,7 +1390,7 @@ No file cap3.tex.
 No file cap4.tex.
 \openout2 = `metodologia.aux'.
 
-(./metodologia.tex [19
+(./metodologia.tex [23
 
 
 
@@ -1398,117 +1403,232 @@ No file cap4.tex.
 ] (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 45.
-<Figs/bs_graph1.png, id=478, 610.6815pt x 398.2077pt>
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 46.
+<Figs/bs_graph1.png, id=567, 610.6815pt x 398.2077pt>
 File: Figs/bs_graph1.png Graphic file (type png)
 <use Figs/bs_graph1.png>
-Package pdftex.def Info: Figs/bs_graph1.png  used on input line 94.
+Package pdftex.def Info: Figs/bs_graph1.png  used on input line 95.
 (pdftex.def)             Requested size: 389.00757pt x 253.6672pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [20] [21 <./Figs/bs_graph1.png>]
-<Figs/gregas.png, id=508, 1000.2168pt x 1000.2168pt>
+ [24] [25 <./Figs/bs_graph1.png>]
+<Figs/gregas.png, id=596, 1000.2168pt x 1000.2168pt>
 File: Figs/gregas.png Graphic file (type png)
 <use Figs/gregas.png>
-Package pdftex.def Info: Figs/gregas.png  used on input line 150.
+Package pdftex.def Info: Figs/gregas.png  used on input line 151.
 (pdftex.def)             Requested size: 486.25761pt x 486.26448pt.
+ [26 <./Figs/gregas.png>] [27] [28] [29] [30] [31] [32]
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 559.
 
- [22 <./Figs/gregas.png>] [23] [24] [25] [26] [27]
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [28]) [29]
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 559.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 559.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\sigma' on input line 559.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 559.
+
+[33] [34]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 605.
+ [35] [36] [37] [38]) [39]
 \openout2 = `Exp_e_resultados.aux'.
 
- (./Exp_e_resultados.tex
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 28.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\tau' on input line 28.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 28.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 39.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 39.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 50.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\sigma' on input line 50.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 50.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 61.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 61.
-
-) [30
+ (./Exp_e_resultados.tex [40
 
 
 
 ]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 21.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\tau' on input line 21.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 21.
+
+[41] [42]
+Overfull \hbox (62.21008pt too wide) in paragraph at lines 114--116
+\T1/ptm/m/n/12 Os co-e-fi-ci-en-tes apre-sen-ta-dos cor-res-pon-dem aos va-lo-res cal-cu-la-dos pela fun-ção \T1/pcr/m/n/12 black_scholes_asymptotic_tau\T1/ptm/m/n/12 ,
+ []
+
+[43] [44] [45]
+<Figs/imagem_tau.png, id=722, 783.4068pt x 422.0568pt>
+File: Figs/imagem_tau.png Graphic file (type png)
+<use Figs/imagem_tau.png>
+Package pdftex.def Info: Figs/imagem_tau.png  used on input line 213.
+(pdftex.def)             Requested size: 437.62888pt x 235.77702pt.
+ [46] [47 <./Figs/imagem_tau.png>]
+<Figs/erro_absoluto_tau.png, id=737, 783.4068pt x 422.0568pt>
+File: Figs/erro_absoluto_tau.png Graphic file (type png)
+<use Figs/erro_absoluto_tau.png>
+Package pdftex.def Info: Figs/erro_absoluto_tau.png  used on input line 229.
+(pdftex.def)             Requested size: 437.62888pt x 235.77702pt.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 312.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 312.
+ [48 <./Figs/erro_absoluto_tau.png>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 326.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 326.
+
+[49]
+Overfull \hbox (20.88693pt too wide) detected at line 359
+[][][][][]
+ []
+
+
+Overfull \hbox (11.54173pt too wide) detected at line 377
+[][][][][]
+ []
+
+[50] [51]
+<Figs/analise_r_.png, id=762, 783.4068pt x 638.8668pt>
+File: Figs/analise_r_.png Graphic file (type png)
+<use Figs/analise_r_.png>
+Package pdftex.def Info: Figs/analise_r_.png  used on input line 549.
+(pdftex.def)             Requested size: 437.62888pt x 356.89537pt.
+ [52] [53 <./Figs/analise_r_.png>] [54]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 598.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\sigma' on input line 598.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 598.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 609.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 609.
+
+) [55]
 \openout2 = `resultados.aux'.
 
 
 No file resultados.tex.
 \openout2 = `conclusoes.aux'.
 
-(./conclusoes.tex) [31
+(./conclusoes.tex) [56
 
 
 
 
 
 
-] (./TCC.bbl) [32
+] (./TCC.bbl) [57
 
 
-] (./TCC.aux (./cap1.aux) (./cap2.aux) (./fundamentos_reg_simbolica.aux) (./cap3.aux) (./cap4.aux) (./metodologia.aux) (./Exp_e_resultados.aux) (./resultados.aux) (./conclusoes.aux))
+]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 183.
+ [58
+
+]
+Overfull \hbox (125.02217pt too wide) detected at line 253
+[][][][]\OT1/ptmcm/m/n/12 (\OML/ptmcm/m/it/12 ^^\\OT1/ptmcm/m/n/12 ) = [] [] + \OML/ptmcm/m/it/12 ^^\
+ []
+
+
+Overfull \hbox (166.61404pt too wide) detected at line 257
+[][][][]\OT1/ptmcm/m/n/12 (\OML/ptmcm/m/it/12 ^^\\OT1/ptmcm/m/n/12 ) = [] [] + \OML/ptmcm/m/it/12 ^^\
+ []
+
+
+Overfull \hbox (208.06099pt too wide) detected at line 261
+[][][][]\OT1/ptmcm/m/n/12 (\OML/ptmcm/m/it/12 ^^\\OT1/ptmcm/m/n/12 ) = [] [] + \OML/ptmcm/m/it/12 ^^\
+ []
+
+
+Overfull \hbox (294.25443pt too wide) detected at line 265
+[][][][]\OT1/ptmcm/m/n/12 (\OML/ptmcm/m/it/12 ^^\\OT1/ptmcm/m/n/12 ) = [] [] + \OML/ptmcm/m/it/12 ^^\
+ []
+
+
+Overfull \hbox (407.69324pt too wide) detected at line 269
+[][][][]\OT1/ptmcm/m/n/12 (\OML/ptmcm/m/it/12 ^^\\OT1/ptmcm/m/n/12 ) = [] [] + \OML/ptmcm/m/it/12 ^^\
+ []
+
+[59]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 274.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 274.
+
+[60
+
+]
+Overfull \hbox (18.38542pt too wide) detected at line 351
+[][][][]\OT1/ptmcm/m/n/12 (\OML/ptmcm/m/it/12 r\OT1/ptmcm/m/n/12 ) = \OML/ptmcm/m/it/12 r [] \OT1/ptmcm/m/n/12 + 6\OML/ptmcm/m/it/12 :\OT1/ptmcm/m/n/12 735305
+ []
+
+
+Overfull \hbox (23.7105pt too wide) detected at line 355
+[][][][]\OT1/ptmcm/m/n/12 (\OML/ptmcm/m/it/12 r\OT1/ptmcm/m/n/12 ) = \OML/ptmcm/m/it/12 r [] \OT1/ptmcm/m/n/12 + 6\OML/ptmcm/m/it/12 :\OT1/ptmcm/m/n/12 7353196
+ []
+
+
+Overfull \hbox (64.37718pt too wide) detected at line 359
+[][][][]\OT1/ptmcm/m/n/12 (\OML/ptmcm/m/it/12 r\OT1/ptmcm/m/n/12 ) = \OML/ptmcm/m/it/12 r [] \OT1/ptmcm/m/n/12 + 0\OML/ptmcm/m/it/12 :\OT1/ptmcm/m/n/12 18001075\OML/ptmcm/m/it/12 r \OT1/ptmcm/m/n/12 + 6\OML/ptmcm/m/it/12 :\OT1/ptmcm/m/n/12 7353144
+ []
+
+
+Overfull \hbox (125.32713pt too wide) detected at line 363
+[][][][]\OT1/ptmcm/m/n/12 (\OML/ptmcm/m/it/12 r\OT1/ptmcm/m/n/12 ) = \OML/ptmcm/m/it/12 r [] \OT1/ptmcm/m/n/12 + 0\OML/ptmcm/m/it/12 :\OT1/ptmcm/m/n/12 18878157 [] [] + 6\OML/ptmcm/m/it/12 :\OT1/ptmcm/m/n/12 7353163
+ []
+
+[61] (./TCC.aux (./cap1.aux) (./cap2.aux) (./fundamentos_reg_simbolica.aux) (./cap3.aux) (./cap4.aux) (./metodologia.aux) (./Exp_e_resultados.aux) (./resultados.aux) (./conclusoes.aux))
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
 
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `TCC.out' has not changed.
-(rerunfilecheck)             Checksum: 9AC7D909684436F8A85B04014888035B;7613.
+(rerunfilecheck)             Checksum: 890340B371C01D2FED515518B3DB79A8;10206.
  ) 
 Here is how much of TeX's memory you used:
- 47463 strings out of 467525
- 1075775 string characters out of 5418981
- 1760601 words of memory out of 5000000
- 75283 multiletter control sequences out of 15000+600000
- 695813 words of font info for 147 fonts, out of 8000000 for 9000
+ 47629 strings out of 467525
+ 1078251 string characters out of 5418981
+ 1764983 words of memory out of 5000000
+ 75303 multiletter control sequences out of 15000+600000
+ 728758 words of font info for 212 fonts, out of 8000000 for 9000
  1142 hyphenation exceptions out of 8191
- 99i,12n,118p,1422b,1358s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,15n,118p,1506b,1357s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmri8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/zapfchan/uzcmi8a.pfb>
-Output written on TCC.pdf (46 pages, 1604740 bytes).
+Output written on TCC.pdf (75 pages, 1884193 bytes).
 PDF statistics:
- 701 PDF objects out of 1000 (max. 8388607)
- 612 compressed objects within 7 object streams
- 209 named destinations out of 1000 (max. 500000)
- 345 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1013 PDF objects out of 1200 (max. 8388607)
+ 887 compressed objects within 9 object streams
+ 328 named destinations out of 1000 (max. 500000)
+ 408 words of extra memory for PDF output out of 10000 (max. 10000000)
 

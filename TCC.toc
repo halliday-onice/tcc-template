@@ -25,21 +25,27 @@
 \contentsline {paragraph}{Vega}{15}{section*.8}%
 \contentsline {paragraph}{Rho}{15}{section*.9}%
 \contentsline {subsection}{\numberline {2.13}Aproximações locais e expansões assintóticas do modelo de Black--Scholes}{16}{subsection.2.13}%
-\contentsline {section}{\numberline {3}Fundamentos de regressão símbólica}{18}{section.3}%
-\contentsline {section}{\numberline {4}Metodologia}{19}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Implementação analítica do Modelo de Black--Scholes e das Gregas}{19}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Análise Univariada de parâmetros}{23}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}Configuração dos Experimentos Univariados}{23}{subsubsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.3}Configuração da Regressão Simbólica}{29}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Procedimento Experimental}{29}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Métricas de Avaliação}{29}{subsection.4.5}%
-\contentsline {section}{\numberline {5}Resultados e Discussão}{30}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Resultados dos Experimentos Univariados}{30}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Tempo Restante até o Vencimento ($\tau $)}{30}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Taxa Livre de Risco ($r$)}{30}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}Volatilidade ($\sigma $)}{30}{subsection.5.4}%
-\contentsline {subsection}{\numberline {5.5}Preço do Ativo Subjacente ($S$)}{30}{subsection.5.5}%
-\contentsline {section}{\numberline {6}Discussão Comparativa dos Experimentos Univariados}{30}{section.6}%
-\contentsline {section}{\numberline {7}Experimentos Multivariados}{30}{section.7}%
-\contentsline {section}{\numberline {8}Síntese dos Resultados e Limitações}{30}{section.8}%
-\contentsline {section}{\numberline {9} Conclusões}{31}{section.9}%
+\contentsline {section}{\numberline {3}Fundamentos da regressão simbólica}{18}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Representação das expressões e complexidade simbólica}{18}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Busca evolutiva e seleção por torneio}{19}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Função de perda, aptidão e controle da complexidade}{20}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Conjunto de melhores expressões e seleção do modelo}{21}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Interpretabilidade matemática e financeira}{22}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Metodologia}{23}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Implementação analítica do Modelo de Black--Scholes e das Gregas}{23}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Análise Univariada de parâmetros}{27}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Configuração dos Experimentos Univariados}{27}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}Variação dos Experimentos Bivariados: $S$ e $\sigma $}{33}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.3}Função de Perda com Restrições Financeiras}{35}{subsubsection.4.2.3}%
+\contentsline {section}{\numberline {5}Resultados e Discussão}{40}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Resultados dos Experimentos Univariados}{40}{subsection.5.1}%
+\contentsline {subsubsection}{\numberline {5.1.1}Análise dos resultados da variação do tempo até o vencimento ($\tau $)}{41}{subsubsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.2}Análise dos resultados da taxa livre de risco ($r$)}{49}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Volatilidade ($\sigma $)}{55}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Preço do Ativo Subjacente ($S$)}{55}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Discussão Comparativa dos Experimentos Univariados}{55}{section.6}%
+\contentsline {section}{\numberline {7}Experimentos Multivariados}{55}{section.7}%
+\contentsline {section}{\numberline {8}Síntese dos Resultados e Limitações}{55}{section.8}%
+\contentsline {section}{\numberline {9} Conclusões}{56}{section.9}%
+\contentsline {section}{\numberline {A}Expressões Simbólicas do Experimento com $\tau $}{58}{appendix.A}%
+\contentsline {section}{\numberline {B}Expressões Simbólicas do Experimento com a Taxa Livre de Juros ($r$)}{60}{appendix.B}%

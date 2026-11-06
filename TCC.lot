@@ -1,6 +1,14 @@
 \babel@toc {brazil}{}\relax 
-\contentsline {table}{\numberline {1}{\ignorespaces Configuração dos parâmetros do experimento univariado com $\tau $.}}{24}{table.caption.13}%
-\contentsline {table}{\numberline {2}{\ignorespaces Configuração do experimento univariado com a taxa livre de risco ($r$).}}{25}{table.caption.15}%
-\contentsline {table}{\numberline {3}{\ignorespaces Configuração dos parâmetros do experimento univariado com $\sigma $.}}{27}{table.caption.17}%
-\contentsline {table}{\numberline {4}{\ignorespaces Configurações dos hiperparâmetros duas execuções do PySR para a variação do preço do ativo subjacente.}}{29}{table.caption.19}%
-\contentsline {table}{\numberline {5}{\ignorespaces Configuração dos parâmetros do experimento univariado com $S$.}}{29}{table.caption.20}%
+\contentsline {table}{\numberline {1}{\ignorespaces Configuração dos parâmetros do experimento univariado com $\tau $.}}{28}{table.caption.13}%
+\contentsline {table}{\numberline {2}{\ignorespaces Configuração do experimento univariado com a taxa livre de risco ($r$).}}{30}{table.caption.15}%
+\contentsline {table}{\numberline {3}{\ignorespaces Configuração dos parâmetros do experimento univariado com $\sigma $.}}{31}{table.caption.17}%
+\contentsline {table}{\numberline {4}{\ignorespaces Configurações dos hiperparâmetros das duas execuções}}{33}{table.caption.19}%
+\contentsline {table}{\numberline {5}{\ignorespaces Configuração dos parâmetros do experimento univariado com $S$.}}{33}{table.caption.20}%
+\contentsline {table}{\numberline {6}{\ignorespaces Configuração dos parâmetros do experimento bivariado com $S$ e $\sigma $.}}{35}{table.caption.21}%
+\contentsline {table}{\numberline {7}{\ignorespaces Hiperparâmetros das três rodadas do experimento bivariado.}}{35}{table.caption.22}%
+\contentsline {table}{\numberline {8}{\ignorespaces Expressões selecionadas no experimento univariado de $\tau $.}}{42}{table.caption.23}%
+\contentsline {table}{\numberline {9}{\ignorespaces Comparação entre os coeficientes teóricos da expansão de Puiseux e os coeficientes das expressões simbólicas selecionadas.}}{45}{table.caption.24}%
+\contentsline {table}{\numberline {10}{\ignorespaces Métricas de erro das expressões simbólicas selecionadas no experimento univariado de $\tau $.}}{48}{table.caption.27}%
+\contentsline {table}{\numberline {11}{\ignorespaces Expressões simbólicas selecionadas no experimento univariado da taxa livre de risco ($r$).}}{51}{table.caption.28}%
+\contentsline {table}{\numberline {12}{\ignorespaces Comparação entre os coeficientes teóricos de Taylor e os coeficientes locais das expressões simbólicas selecionadas.}}{51}{table.caption.29}%
+\contentsline {table}{\numberline {13}{\ignorespaces Comparação dos erros de treinamento e extrapolação das expressões simbólicas selecionadas para a taxa livre de risco ($r$).}}{54}{table.caption.31}%

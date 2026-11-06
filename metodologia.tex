@@ -1,3 +1,4 @@
+% !TeX root = TCC.tex
 \section{Metodologia}
 
 Este capítulo apresenta os procedimentos metodológicos adotados para o desenvolvimento deste trabalho e que será usado para o treinamento da regressão simbólica. Nele são descritos a implementação inicial do modelo de Black--Scholes acompanhada de gráficos preliminares com parâmetros previamente configurados e a avaliação do comportamento inicial das gregas. Também inclui a criação do conjunto de dados,
@@ -164,14 +165,9 @@ adotou-se $S=100$; nos demais, os parâmetros
 fixos foram $r=0{,}05$, $\sigma=0{,}20$ e
 $\tau=180/252$, conforme a variável investigada. Nesta etapa, os valores utilizados como referência foram
 calculados diretamente pela solução analítica
-de Black--Scholes, já implementada e detalhada anteriormente. Para cada experimento, os dados foram organizados
-em conjuntos de treinamento e teste, utilizados,
-respectivamente, para o ajuste das expressões
-simbólicas e para a avaliação de sua capacidade
-preditiva. As expressões obtidas foram analisadas
-considerando o erro de aproximação, a complexidade
-simbólica e a correspondência com as propriedades
-matemáticas do modelo de Black--Scholes.
+de Black--Scholes, já implementada e detalhada anteriormente. Para cada experimento, os dados foram organizados em conjuntos de treinamento e teste, utilizados, respectivamente, para o ajuste das expressões simbólicas e para a avaliação de seu desempenho em regiões não utilizadas durante o treinamento. A divisão determinística por intervalos da variável independente permitiu investigar particularmente o comportamento das expressões em condições de extrapolação.
+
+O objetivo da análise não consistiu na seleção exclusiva de uma única expressão de menor erro, mas na comparação das diferentes equações preservadas pelo PySR. Para isso, foram consideradas a precisão numérica, a complexidade simbólica e a correspondência com propriedades matemáticas do modelo de Black--Scholes. 
 
 Essa abordagem estabelece uma referência inicial
 para a investigação da regressão simbólica,
@@ -238,7 +234,7 @@ A implementação recebe como parâmetros os valores
 de $S$, $K$, $r$ e $\sigma$, retornando os
 coeficientes associados aos termos
 $\tau^{1/2}$, $\tau$, $\tau^{3/2}$ e $\tau^2$,
-respectivamente. Resumindamente, em forma de tabela, tem-se:
+respectivamente.
 
 A Tabela~\ref{tab:parametros_tau} sintetiza os parâmetros
 utilizados no primeiro experimento univariado,
@@ -289,6 +285,8 @@ a complexidade simbólica das expressões e sua
 correspondência com as propriedades matemáticas
 do modelo de referência, incluindo os coeficientes
 das expansões de Taylor e de Puiseux.
+
+Realizou-se, também, uma verificação da validade numérica das expressões simbólicas produzidas pelo PySR no conjunto de teste. Para cada equação, foram avaliadas as previsões correspondentes aos 36 valores de tempo até o vencimento, identificando-se a ocorrência de resultados não finitos, como valores indefinidos (\texttt{NaN}) ou infinitos. Esse procedimento teve como objetivo investigar possíveis restrições de domínio das expressões identificadas, particularmente em regiões de extrapolação próximas ao vencimento. As equações que apresentaram previsões inválidas foram mantidas na análise comparativa, sendo sua limitação matemática registrada separadamente das métricas de erro. Nessas situações, as métricas calculadas sobre todo o conjunto de teste não foram consideradas definidas.
 
 \subsubsection*{Variação da taxa de juros ($r$)}
 O segundo experimento univariado investigou a dependência
@@ -482,31 +480,32 @@ a volatilidade ($\sigma$) é variável.
     {\footnotesize Fonte: Elaboração própria.\par}
 \end{table}
 
-
-% Impede que as tabelas dos experimentos ultrapassem esta subseção.
-\FloatBarrier
 \subsubsection*{Variação do preço do ativo ($S$)}
 O experimento univariado com o preço do ativo subjacente  
-teve como objetivo investigar a capacidade da regressão simbólzica de aproximar a função de precificação de Black--Scholes quando apenas a variável $S$ é modificada. Para isso, foram mantidos constantes o preço de exercício $K=100$, a taxa livre de risco $r=0{,}05$, a volatilidade $\sigma=0{,}20$ e o tempo restante até o vencimento $\tau=180/252$ ano.
+teve como objetivo investigar a capacidade da regressão simbólica de aproximar a função de precificação de Black--Scholes quando apenas a variável $S$ é modificada. Para isso, foram mantidos constantes o preço de exercício $K=100$, a taxa livre de risco $r=0{,}05$, a volatilidade $\sigma=0{,}20$ e o tempo restante até o vencimento $\tau=180/252$ ano.
 
 O \textit{dataset} foi construído a partir de 91 valores igualmente espaçados de ($S$), compreendidos entre 70 e 130. Para cada observação, o preço teórico da opção europeia de compra foi calculado diretamente pela formulação analítica de Black-Scholes, constituindo a variável-alvo do treinamento. Os dados foram ordenados de maneira crescente e particionados deterministicamente em 71 observações de treinamento e 20 de teste, correspondentes, respectivamente, aos intervalos de aproximadamente 70 a 116,67 e de 117,33 a 130. Essa divisão foi adotada para avaliar a capacidade de extrapolação das expressões simbólicas para preços do ativo superiores aos utilizados durante o ajuste.
-Como uma primeira rodade de testes, realizou-se o treinamento utilizando a configuração padrão estabelecida para os experimentos univariados, com 500 iterações, operadores binários de adição, subtração, multiplicação e divisão, e operadores unários exponencial, logaritmo, raiz quadrada e função erro (\textit{erf}). O tamanho máximo das expressões foi limitado a 35, utilizando-se o critério \texttt{model\_selection=best} para a seleção automática de uma expressão pelo PySR.
 
 A investigação foi organizada em duas rodadas independentes de treinamento do PySR, diferenciadas pela configuração dos hiperparâmetros responsáveis pela exploração do espaço de busca simbólica. Em ambas, foram utilizados os mesmos conjuntos de treinamento e teste, mantendo-se ($S$) como a única variável independente.
 
 Na primeira rodada de treinamento, adotou-se a configuração inicial estabelecida para os experimentos univariados, com 500 iterações, operadores binários de adição, subtração, multiplicação e divisão, além dos operadores unários exponencial, logaritmo, raiz quadrada e função erro (erf). O tamanho máximo das expressões foi limitado a 35, utilizando-se o critério \texttt{model\_selection="best"} para a seleção automática de uma expressão pelo PySR. Após o treinamento, as expressões preservadas pelo algoritmo foram avaliadas quanto à precisão preditiva nos conjuntos de treinamento e teste, considerando também sua complexidade simbólica.
 
-Na segunda rodada, realizou-se um novo treinamento independente, com uma configuração ampliada de hiperparâmetros, visando investigar a influência de uma busca evolutiva mais extensa sobre as expressões identificadas. Nessa execução, o número de iterações foi aumentado para 1.200, com 24 populações e 40 indivíduos por população. Também foram definidos 500 ciclos evolutivos por iteração, tamanho máximo de expressão igual a 40 e profundidade máxima igual a 12. Os operadores matemáticos e o critério de seleção foram mantidos em relação à primeira rodada, sendo utilizada a semente aleatória \texttt{random\_state=42}. Adicionalmente, foi realizada uma análise da correspondência entre as expressões simbólicas e as propriedades analíticas do modelo de Black-Scholes. Para isso, considerou-se a expansão teórica de Taylor de segunda ordem em relação a $S$, em torno do ponto ($S_0=100$). Para cada expressão selecionada para análise, foram calculados seu valor, sua primeira derivada e a segunda derivada no ponto de expansão, permitindo a comparação com o preço teórico da opção, Delta e metade de Gamma.
+Na segunda rodada, realizou-se um novo treinamento independente, denominado configuração expandida, com o objetivo de investigar o efeito da ampliação da busca evolutiva sobre as expressões simbólicas identificadas. Nessa configuração, foram utilizadas 1.200 iterações, 24 populações, 40 indivíduos por população e 500 ciclos evolutivos por iteração. O tamanho máximo das expressões foi estabelecido em 40 e a profundidade máxima em 12. Os operadores matemáticos e o critério de seleção permaneceram iguais aos da primeira rodada. Ambas as configurações utilizaram os mesmos conjuntos de treinamento e teste, permitindo uma comparação exploratória dos resultados obtidos sob diferentes hiperparâmetros.
+
+A análise das expressões simbólicas considerou também sua correspondência com as propriedades analíticas do modelo de Black--Scholes. Para isso, foram comparados os coeficientes das expansões de Taylor de segunda ordem em relação ao preço do ativo subjacente, considerando o ponto de expansão $S_0=100$. Para as expressões analisadas, foram calculados o valor da função, sua primeira derivada e metade da segunda derivada nesse ponto, correspondentes, respectivamente, ao preço da opção, ao Delta e ao coeficiente de segunda ordem associado ao Gamma. Essa comparação foi realizada para as expressões dos treinamentos inicial e expandido, permitindo investigar a relação entre precisão numérica, complexidade simbólica e reprodução das propriedades locais da função de precificação.
 
 De maneira complementar, as derivadas das expressões foram avaliadas em uma malha de 301 pontos no intervalo de ($S=70$) a ($S=130$). Esse procedimento permitiu investigar a correspondência com as sensibilidades analíticas de Black-Scholes e verificar a preservação de propriedades matemáticas, como monotonicidade, limites de Delta e convexidade.
 
-Para a avaliação das expressões, foram considerados o erro absoluto médio (MAE), o erro quadrático médio (MSE), a raiz do erro quadrático médio (RMSE) e a complexidade simbólica ,ou seja seu sentido matemático e financeiro , esta análise de desempenho considerou tanto a interpretabilidade no domínio do problema, atestada pelo comportamento das Gregas, quanto a eficiência matemática. Além da expressão selecionada automaticamente pelo algoritmo, foram examinadas outras expressões preservadas pelo PySR, permitindo investigar diferentes compromissos entre precisão numérica e sentido financeiro e matemático. Abaixo uma tabela resumindo quais fora os hiper parâmetros usados nos experimentos.
+Para a avaliação das expressões, foram considerados o erro absoluto médio (MAE), o erro quadrático médio (MSE), a raiz do erro quadrático médio (RMSE) e a complexidade simbólica ,ou seja seu sentido matemático e financeiro , esta análise de desempenho considerou tanto a interpretabilidade no domínio do problema, atestada pelo comportamento das Gregas, quanto a eficiência matemática. Além da expressão selecionada automaticamente pelo algoritmo, foram examinadas outras expressões preservadas pelo PySR, permitindo investigar diferentes compromissos entre precisão numérica e sentido financeiro e matemático. Abaixo a tabela ~\ref{tab:configuracoes_pysr_S} resume quais foram os hiper parâmetros usados nos experimentos.
+
+Para cada configuração, foram construídas representações gráficas comparando os erros absolutos médios de treinamento e teste das diferentes equações, bem como a relação entre a complexidade simbólica e a precisão numérica. Adicionalmente, foram representadas as curvas de preços previstas por expressões selecionadas para visualização, em comparação com os valores analíticos de Black--Scholes. A análise gráfica teve como finalidade evidenciar diferenças de aproximação, possíveis desvios na região de extrapolação e situações em que expressões de complexidades distintas apresentam comportamentos numéricos semelhantes.
+
+No treinamento expandido, realizou-se ainda uma avaliação das derivadas simbólicas das equações em uma malha de 301 pontos, abrangendo o intervalo $S\in[70,130]$. Esse procedimento permitiu examinar numericamente, na malha considerada, o comportamento de Delta e Gamma e possíveis violações das restrições financeiras de monotonicidade e convexidade. Os resultados dessa verificação não foram interpretados como demonstração analítica da validade dessas propriedades em todo o domínio.
 
 
 \begin{table}[htbp]
     \centering
-    \caption{Configurações dos hiperparâmetros duas execuções do PySR
-    para a variação do preço do ativo subjacente.}
+    \caption{Configurações dos hiperparâmetros das duas execuções}
     \label{tab:configuracoes_pysr_S}
 
     \begin{tabular}{lcc}
@@ -516,7 +515,7 @@ Para a avaliação das expressões, foram considerados o erro absoluto médio (M
         \textbf{Ampliada} \\
         \hline
         \texttt{niterations} & 500 & 1200 \\
-        \texttt{populations} & 31 & 24 \\
+        \texttt{populations} & 15 & 24 \\
         \texttt{population\_size} & 27 & 40 \\
         \texttt{ncycles\_per\_iteration} & 380 & 500 \\
         \texttt{maxsize} & 35 & 40 \\
@@ -557,8 +556,206 @@ A seguir, a Tabela~\ref{tab:parametros_S} resume a dinâmica desta rodada de tes
     {\footnotesize Fonte: Elaboração própria.\par}
 \end{table}
 
-\subsection{Configuração da Regressão Simbólica}
+\subsubsection{Variação dos Experimentos Bivariados: $S$ e $\sigma$}
+A análise bivariada concentrou-se no preço do ativo subjacente ($S$) e na volatilidade ($\sigma$), considerando a relevância dessas variáveis para a precificação de opções e para a interpretação financeira das expressões obtidas por regressão simbólica. Enquanto $S$ corresponde ao valor de mercado do ativo subjacente, $\sigma$ representa a volatilidade de seus retornos assumida pelo modelo de Black-Scholes. Para uma opção europeia de compra sem pagamento de dividendos, a função de precificação é crescente e convexa em relação a $S$ e não decrescente em relação a $\sigma$, propriedades diretamente relacionadas às sensibilidades Delta, Gamma e Vega.
 
-\subsection{Procedimento Experimental}
+A variação conjunta dessas variáveis permite examinar não apenas suas influências individuais sobre o preço da opção, mas também a dependência das sensibilidades em relação a ambas. No modelo de Black-Scholes, por exemplo, o Delta depende tanto de $S$ quanto de $\sigma$, de modo que alterações na volatilidade podem modificar a sensibilidade do preço da opção ao ativo subjacente. Essa interdependência fornece uma referência para investigar a interpretabilidade matemática e financeira das expressões identificadas pelo PySR, considerando suas estruturas e sua correspondência com as propriedades da superfície de precificação. Para essa investigação, foram mantidos constantes o preço de exercício $K=100$, a taxa livre de risco $r=0{,}05$ e o tempo até o vencimento $\tau=180/252$ ano.
+O conjunto de dados foi construído a partir de 50 valores igualmente espaçados de $S$, no intervalo $[50;150]$, e 50 valores de $\sigma$, no intervalo $[0{,}05;0{,}50]$. Por meio da função \texttt{meshgrid}, da biblioteca NumPy, foram formadas todas as combinações entre os valores das duas variáveis, totalizando 2.500 observações. Para cada par $(S_i,\sigma_i)$, o preço de referência $C_{BS}(S_i,\sigma_i)$ foi calculado pela implementação analítica de Black--Scholes apresentada anteriormente. Esses preços constituíram os valores-alvo do treinamento; não foram obtidos por simulação de trajetórias ou por dados de mercado.
 
-\subsection{Métricas de Avaliação}
+A separação dos dados foi determinística e preservou a estrutura retangular da grade. Os 40 menores valores de cada variável foram combinados para formar o conjunto de treinamento, com 1.600 observações. As 900 combinações restantes constituíram o conjunto de teste, subdividido em três regiões: 400 observações com extrapolação apenas de $S$, 400 com extrapolação apenas de $\sigma$ e 100 com extrapolação simultânea das duas variáveis. Os limites superiores do treinamento foram aproximadamente $S=129{,}59$ e $\sigma=0{,}4082$; os valores reservados para extrapolação começaram em aproximadamente $S=131{,}63$ e $\sigma=0{,}4173$. Essa divisão permitiu distinguir o desempenho do modelo nas diferentes direções de extrapolação, sem utilizar observações de teste no ajuste das expressões.
+
+A Tabela~\ref{tab:parametros_bivariada} sintetiza a configuração do conjunto de dados empregado nas três rodadas de treinamento.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Configuração dos parâmetros do experimento bivariado com $S$ e $\sigma$.}
+    \label{tab:parametros_bivariada}
+    \begin{tabular}{lcc}
+        \hline
+        \textbf{Parâmetro} & \textbf{Condição} & \textbf{Valor utilizado} \\
+        \hline
+        Preço do ativo ($S$) & Variável & $[50;150]$ \\
+        Volatilidade ($\sigma$) & Variável & $[0{,}05;0{,}50]$ \\
+        Preço de exercício ($K$) & Constante & $100$ \\
+        Taxa livre de risco ($r$) & Constante & $0{,}05$ \\
+        Tempo até o vencimento ($\tau$) & Constante & $180/252$ ano \\
+        Quantidade de valores de $S$ & --- & $50$ \\
+        Quantidade de valores de $\sigma$ & --- & $50$ \\
+        \hline
+        Total de observações & --- & $2500$ \\
+        Treinamento & --- & $1600$ \\
+        Teste: extrapolação de $S$ & --- & $400$ \\
+        Teste: extrapolação de $\sigma$ & --- & $400$ \\
+        Teste: extrapolação de ambos & --- & $100$ \\
+        \hline
+    \end{tabular}
+    \vspace{0.2cm}
+    {\footnotesize Fonte: Elaboração própria.\par}
+\end{table}
+
+A investigação compreendeu três rodadas independentes de treinamento do PySR. Na primeira, denominada \textit{configuração original}, adotou-se a minimização do erro quadrático dos preços, sem penalidades explícitas para propriedades financeiras, com 1.200 iterações. Na segunda, realizou-se uma rodada piloto de 100 iterações, introduzindo-se uma função de perda personalizada com penalidades associadas aos limites de preço e às derivadas da função de precificação. Na terceira, executou-se um novo treinamento independente com a mesma função de perda personalizada e 1.200 iterações, a fim de permitir uma comparação com a configuração original sob o mesmo número de iterações. A terceira execução não consistiu na continuação da rodada piloto: os modelos foram inicializados e treinados separadamente.
+
+Nas três rodadas, foram mantidos os operadores binários de adição, subtração, multiplicação e divisão, bem como os operadores unários exponencial, logaritmo, raiz quadrada e função erro (\textit{erf}). Utilizaram-se 24 populações, com 40 indivíduos por população, 500 ciclos evolutivos por iteração, tamanho máximo de expressão igual a 40 e profundidade máxima igual a 12. A seleção automática de expressões foi realizada com \texttt{model\_selection="best"}. Para favorecer a reprodutibilidade, adotaram-se a semente aleatória \texttt{random\_state=42}, a configuração determinística e o processamento serial. Cada rodada foi identificada separadamente e seus registros foram preservados, evitando associar uma expressão ao número atribuído em outra execução. A Tabela~\ref{tab:configuracoes_pysr_bivariada} apresenta a comparação entre as configurações.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Hiperparâmetros das três rodadas do experimento bivariado.}
+    \label{tab:configuracoes_pysr_bivariada}
+    \small
+    \begin{tabular}{lccc}
+        \hline
+        \textbf{Hiperparâmetro} & \textbf{Original} & \textbf{Piloto} & \textbf{Ampliado} \\
+        \hline
+        \texttt{niterations} & 1200 & 100 & 1200 \\
+        \texttt{populations} & 24 & 24 & 24 \\
+        \texttt{population\_size} & 40 & 40 & 40 \\
+        \texttt{ncycles\_per\_iteration} & 500 & 500 & 500 \\
+        \texttt{maxsize} & 40 & 40 & 40 \\
+        \texttt{maxdepth} & 12 & 12 & 12 \\
+        \texttt{model\_selection} & best & best & best \\
+        \texttt{random\_state} & 42 & 42 & 42 \\
+        \texttt{deterministic} & True & True & True \\
+        \texttt{parallelism} & serial & serial & serial \\
+        Função de perda & MSE & MSE + penalidades & MSE + penalidades \\
+        \hline
+    \end{tabular}
+    \vspace{0.2cm}
+    {\footnotesize Fonte: Elaboração própria.\par}
+\end{table}
+
+\subsubsection{Função de Perda com Restrições Financeiras}
+A função de perda personalizada foi elaborada para penalizar expressões cujas previsões contrariassem propriedades matemáticas e financeiras esperadas de uma opção europeia de compra sem pagamento de dividendos. Para os parâmetros fixados, consideraram-se os limites de não arbitragem do preço e as condições sobre as sensibilidades:
+
+\begin{equation}
+    \max\left(0,S-Ke^{-r\tau}\right)\leq C(S,\sigma)\leq S,
+\end{equation}
+\begin{equation}
+    0\leq\frac{\partial C}{\partial S}\leq1,\qquad
+    \frac{\partial^2 C}{\partial S^2}\geq0,\qquad
+    \frac{\partial C}{\partial\sigma}\geq0.
+\end{equation}
+
+A primeira desigualdade estabelece os limites admissíveis para o preço da opção, enquanto as demais expressam, respectivamente, os limites de Delta, a convexidade em relação a $S$ (Gamma não negativo) e a monotonicidade do preço em relação à volatilidade (Vega não negativo). Tais condições foram incorporadas ao treinamento na forma de penalidades suaves, e não como restrições rígidas à estrutura de cada expressão.
+
+A função objetivo utilizada nas duas rodadas com penalidades foi definida por
+\begin{equation}
+    \mathcal{L}_{\mathrm{fin}}=
+    \mathrm{MSE}
+    +5P_{\mathrm{preco}}
+    +5P_{\Delta}
+    +0{,}25P_{\Gamma}
+    +0{,}25P_{\mathrm{Vega}},
+\end{equation}
+em que o termo $\mathrm{MSE}$ assegura a fidelidade numérica aos preços de referência, enquanto cada termo $P$ corresponde à média dos quadrados das violações de sua respectiva condição de não arbitragem ou sensibilidade. Como as gregas apresentam ordens de grandeza distintas no domínio analisado enquanto $\Delta$ é limitado ao intervalo $[0,1]$, $\Gamma$ assume valores da ordem de $10^{-2}$ e $\mathrm{Vega}$ atinge dezenas, as violações de Gamma e Vega foram normalizadas pelos fatores de escala característicos de $0{,}02$ e $30$, respectivamente, antes da elevação ao quadrado. Essa padronização adimensional evita que a diferença de magnitude entre as derivadas distorça o processo de seleção evolutiva. 
+
+Durante o treinamento, cada expressão candidata produzida pelo PySR foi representada por \(\widehat C(S,\sigma)\), distinguindo-a da função analítica \(C_{BS}(S,\sigma)\). As sensibilidades associadas a essas expressões foram estimadas numericamente por diferenças finitas centrais, de modo que as quantidades \(\widehat\Delta\), \(\widehat\Gamma\) e \(\widehat{\mathrm{Vega}}\) representam aproximações das respectivas derivadas da função candidata. Essas estimativas foram utilizadas exclusivamente na avaliação das penalidades financeiras durante a busca evolutiva. Após os treinamentos, as derivadas das expressões selecionadas foram calculadas simbolicamente por meio da biblioteca SymPy, para posterior comparação com as sensibilidades analíticas de Black-Scholes.
+
+Durante a otimização, em vez de empregar diferenciação simbólica a cada geração, que elevaria proibitivamente o custo computacional, as sensibilidades das expressões candidatas foram aproximadas por diferenças finitas centrais, de precisão $\mathcal{O}(h^2)$. Adotaram-se incrementos proporcionais à escala de cada variável na malha, fixados em $h_S=0{,}5$ para o preço do ativo e $h_{\sigma}=0{,}005$ para a volatilidade, foram adotados incrementos de \(h_S=0{,}5\) para o preço do ativo e \(h_\sigma=0{,}005\) para a volatilidade, definidos como valores de referência para a aproximação numérica das derivadas durante a busca evolutiva.  Em particular, para uma expressão candidata $\widehat C$, foram utilizadas as aproximações:
+\begin{equation}
+    \widehat\Delta(S,\sigma)\approx
+    \frac{\widehat C(S+h_S,\sigma)-\widehat C(S-h_S,\sigma)}{2h_S},
+\end{equation}
+\begin{equation}
+    \widehat\Gamma(S,\sigma)\approx
+    \frac{\widehat C(S+h_S,\sigma)-2\widehat C(S,\sigma)+\widehat C(S-h_S,\sigma)}{h_S^2},
+\end{equation}
+\begin{equation}
+    \widehat{\mathrm{Vega}}(S,\sigma)\approx
+    \frac{\widehat C(S,\sigma+h_{\sigma})-\widehat C(S,\sigma-h_{\sigma})}{2h_{\sigma}}.
+\end{equation}
+
+
+
+O cálculo dessas diferenças ocorreu durante a busca simbólica, sobre as observações de treinamento e suas perturbações locais. Dessa forma, a função de perda não utilizou os valores analíticos das gregas como variáveis-alvo adicionais, mas apenas os sinais e limites que as aproximações deveriam respeitar.
+
+
+As aproximações numéricas das sensibilidades foram utilizadas
+na construção dos termos de penalização da função objetivo.
+Para explicitar essas penalidades, define-se
+$[x]_+ = \max(0,x)$, de modo que apenas os desvios
+que ultrapassam os limites estabelecidos contribuam
+para a perda adicional.
+
+Sejam $n$ o número de observações de treinamento,
+$\widehat{C}_i$ o preço estimado pela expressão candidata
+na observação $i$ e
+
+\begin{equation}
+    L_i = \max\left(0,S_i-Ke^{-r\tau}\right),
+    \qquad U_i = S_i,
+\end{equation}
+
+os limites inferior e superior de não arbitragem,
+respectivamente.
+
+A penalidade associada aos limites de preço foi definida por
+
+\begin{equation}
+\label{eq:penalidade_preco}
+    P_{\mathrm{preco}} =
+    \frac{1}{n}\sum_{i=1}^{n}
+    \left(
+        [L_i-\widehat{C}_i]_+^2
+        +
+        [\widehat{C}_i-U_i]_+^2
+    \right).
+\end{equation}
+
+Para Delta, a penalidade considera tanto valores negativos
+quanto valores superiores à unidade:
+
+\begin{equation}
+\label{eq:penalidade_delta}
+    P_{\Delta} =
+    \frac{1}{n}\sum_{i=1}^{n}
+    \left(
+        [-\widetilde{\Delta}_{h,i}]_+^2
+        +
+        [\widetilde{\Delta}_{h,i}-1]_+^2
+    \right).
+\end{equation}
+
+Para Gamma e Vega, foram penalizadas exclusivamente
+as aproximações negativas dessas sensibilidades.
+Adicionalmente, aplicaram-se fatores de normalização
+para considerar suas diferentes escalas numéricas:
+
+\begin{equation}
+\label{eq:penalidade_gamma}
+    P_{\Gamma} =
+    \frac{1}{n}\sum_{i=1}^{n}
+    \left(
+        \frac{[-\widetilde{\Gamma}_{h,i}]_+}
+        {0{,}02}
+    \right)^2,
+\end{equation}
+
+\begin{equation}
+\label{eq:penalidade_vega}
+    P_{\mathrm{Vega}} =
+    \frac{1}{n}\sum_{i=1}^{n}
+    \left(
+        \frac{[-\widetilde{\mathrm{Vega}}_{h,i}]_+}
+        {30}
+    \right)^2.
+\end{equation}
+
+Dessa forma, cada penalidade assume valor nulo quando
+a respectiva propriedade financeira é satisfeita
+nos pontos avaliados e aumenta quadraticamente
+conforme cresce a magnitude das violações.
+Os termos foram calculados sobre as observações
+de treinamento, sem utilizar os preços ou as
+sensibilidades do conjunto de teste.
+
+Além disso, os pesos multiplicativos foram definidos de maneira exploratória, buscando atribuir maior importância às violações dos limites de preço e de Delta, sem desconsiderar as propriedades de convexidade e monotonicidade em relação à volatilidade. Esses valores não resultaram de um procedimento sistemático de otimização dos hiperparâmetros da função de perda. Por representarem propriedades de ordem zero e de primeira ordem direta em relação ao ativo subjacente, violações nos limites de não arbitragem do preço ou a obtenção de um Delta fora do intervalo $[0,1]$ invalidam imediatamente a expressão candidata como modelo de precificação; assim, a atribuição de pesos mais elevados às violações dos limites de preço e de Delta aumenta sua contribuição para a função objetivo, tornando menos favoráveis, durante a busca evolutiva, expressões que apresentem desvios nessas propriedades. Entretanto, por se tratar de penalidades suaves, o procedimento não impede a seleção de expressões que ainda apresentem determinadas violações. Em contrapartida, como o Gamma constitui uma derivada de segunda ordem aproximada numericamente é naturalmente mais ruidoso e sensível a pequenas perturbações na árvore simbólica, a adoção de um peso moderado ($0{,}25$) para Gamma e Vega evita que a função objetivo se torne excessivamente rígida.
+
+
+Concluídos os treinamentos, a expressão selecionada automaticamente em cada rodada foi avaliada sobre a grade completa de 2.500 observações. Para os preços, foram calculados o erro absoluto médio (MAE), o erro quadrático médio (MSE) e a raiz do erro quadrático médio (RMSE), separadamente no treinamento, nas três regiões de extrapolação e no conjunto de teste completo. Foram também construídas visualizações das superfícies de preços de Black--Scholes e do PySR e mapas dos erros de aproximação, com o objetivo de examinar a distribuição espacial dos desvios.
+
+Para avaliar a correspondência das sensibilidades, as expressões selecionadas foram convertidas em representações simbólicas com a biblioteca SymPy. Suas derivadas parciais em relação a $S$ e $\sigma$, bem como a segunda derivada em relação a $S$, foram calculadas simbolicamente, produzindo estimativas de Delta, Vega e Gamma. Diferentemente das aproximações por diferenças finitas empregadas na função de perda, essa etapa utilizou as derivadas das próprias expressões matemáticas encontradas. Os valores foram comparados com as gregas analíticas de Black--Scholes, por meio do MAE em cada região de avaliação.
+
+Por fim, procedeu-se à verificação numérica das restrições financeiras em todos os pontos da grade. Foram identificadas as observações em que o preço estimado ultrapassou os limites de não arbitragem, Delta ficou fora do intervalo $[0,1]$ ou Gamma e Vega apresentaram valores negativos. Adotou-se uma tolerância numérica de $10^{-8}$ e contabilizaram-se tanto as ocorrências de cada tipo de violação quanto o número de observações com pelo menos uma condição violada, evitando a contagem duplicada de pontos. Para eventuais violações do limite inferior do preço, também foram avaliadas sua magnitude e localização na grade de $(S,\sigma)$.
+
+A comparação entre as rodadas de 1.200 iterações foi utilizada para investigar a influência da introdução das penalidades financeiras sob uma configuração equivalente de busca, enquanto a rodada piloto de 100 iterações forneceu uma referência exploratória sobre o comportamento do objetivo personalizado com menor número de iterações. Como as verificações foram realizadas sobre uma grade finita, a ausência de violações em seus pontos não foi interpretada como prova de validade global das expressões em todo o domínio contínuo.
+

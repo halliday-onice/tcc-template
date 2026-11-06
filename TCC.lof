@@ -1,3 +1,6 @@
 \babel@toc {brazil}{}\relax 
-\contentsline {figure}{\numberline {1}{\ignorespaces Comportamento dos preços das opções europeias de compra e venda em função do preço do ativo subjacente.}}{21}{figure.caption.10}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Comportamento das gregas em função do preço do ativo subjacente.}}{22}{figure.caption.11}%
+\contentsline {figure}{\numberline {1}{\ignorespaces Comportamento dos preços das opções europeias de compra e venda em função do preço do ativo subjacente.}}{25}{figure.caption.10}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Comportamento das gregas em função do preço do ativo subjacente.}}{26}{figure.caption.11}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Comparação entre os preços teóricos de Black--Scholes e as aproximações simbólicas no experimento univariado de $\tau $.}}{47}{figure.caption.25}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Erros absolutos das expressões simbólicas selecionadas em função do tempo até o vencimento no experimento univariado de $\tau $.}}{48}{figure.caption.26}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Comparação dos preços em função da taxa livre de risco.}}{53}{figure.caption.30}%

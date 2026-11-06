@@ -1,8 +1,86 @@
-\section{Fundamentos de regressão símbólica}
+\section{Fundamentos da regressão simbólica}
+\label{sec:fundamentos_regressao_simbolica}
 
-É inegável a importância do uso de inteligência artificial na vida e no cotidiano das pessoas. Seja ao desbloquear o telefone \cite{devlin2023ai} até a obtenção de crédito em uma instituição financeira. Nas ciências naturais como a física ou nas ciências humanas como a economia modelos matemáticos são a base que permitem expressar relações entre variáveis e funções. Os modelos  de aprendizado de máquina intitulados \textit{black boxes}, os modelos caixa preta, como as redes neurais, são chamados assim pelo fato de não ser possível observar as entradas e saídas após o processamento nas várias camadas que possui. Devido a essa arquitetura,  mesmo que a rede minimize o erro de forma eficiente, a extração de uma relação matemática interpretável entre entrada e saída torna-se inviável.
+Os modelos matemáticos desempenham papel central na descrição e na análise de fenômenos em diferentes áreas do conhecimento, uma vez que permitem relacionar variáveis e examinar como alterações em determinados parâmetros afetam o comportamento de um sistema. Métodos de aprendizado de máquina também podem representar relações complexas a partir de dados; entretanto, em arquiteturas como determinadas redes neurais, a relação aprendida costuma estar distribuída entre numerosos parâmetros internos, o que dificulta sua interpretação direta como uma expressão matemática concisa. Essa limitação não implica impossibilidade de examinar as entradas, saídas ou representações intermediárias desses modelos, mas evidencia a diferença entre obter previsões e identificar uma relação funcional explicitamente interpretável.
 
-Assim, a regressão símbolica mostra-se uma abordagem interessante por combinar o aprendizado orientado a dados com a interpretabilidade \cite{makke2024interpretable}. Diferente de modelos caixa-preta, o objetivo dessa técnica não se limita à obtenção de uma boa aproximação mas envolve também a busca por expressões matemáticas explícitas capazes de representar as relações existentes entre as variáveis do problema e consiga descrever o processo de decisão.
+A regressão simbólica aborda essa questão por meio da busca de expressões matemáticas que relacionem variáveis independentes e observações de interesse sem pressupor, necessariamente, uma forma funcional previamente fixada. Diferentemente de uma regressão em que se escolhe de antemão uma família de funções e se estimam apenas seus parâmetros, a regressão simbólica investiga simultaneamente a estrutura da expressão e os valores de suas constantes. Por esse motivo, a precisão do ajuste deve ser analisada juntamente com a complexidade e as propriedades matemáticas da solução obtida \cite{makke2024interpretable,cranmer2023pysr}.
 
-No modelo de Black--Scholes \cite{blackscholes1973}, o preço do derivativo é descrito de forma analítica explícita, construída a partir de variáveis como o preço do ativo subjacente, o \textit{strike price}, a taxa livre de risco, a volatilidade e o tempo até o vencimento. Nesse sentido, o interesse no uso da regressão simbólica neste trabalho não reside na redescoberta exata da expressão analítica de Black--Scholes, mas na capacidade de identificar estruturas matemáticas explícitas que capturam a dinâmica de precificação, convergindo para aproximações locais análogas às expansões em série do modelo teórico.
+No modelo de Black--Scholes \cite{blackscholes1973}, o preço de uma opção europeia é dado por uma relação analítica explícita entre o preço do ativo subjacente, o preço de exercício, a taxa livre de risco, a volatilidade e o tempo até o vencimento. Nesse contexto, o interesse da regressão simbólica não se restringe à reprodução numérica da fórmula conhecida, tampouco pressupõe sua redescoberta exata. A possibilidade de obter expressões alternativas permite investigar suas estruturas algébricas, seus coeficientes, suas expansões locais e sua compatibilidade com propriedades financeiras da função de referência.
 
+\subsection{Representação das expressões e complexidade simbólica}
+\label{subsec:sr_representacao}
+
+Considere um conjunto de observações $\mathcal{D}=\{(\boldsymbol{x}_i,y_i)\}_{i=1}^{n}$, em que $\boldsymbol{x}_i$ representa as variáveis explicativas e $y_i$ o valor observado da variável dependente. A regressão simbólica procura uma função candidata $\widehat{f}$, construída pela combinação de variáveis, constantes e operadores matemáticos, que apresente erro reduzido em relação aos dados. O conjunto de operadores admitidos delimita o espaço de busca: operações aritméticas, raízes, exponenciais ou funções especiais somente podem integrar as expressões quando disponibilizadas na configuração do algoritmo.
+
+No PySR, as expressões são representadas internamente como árvores sintáticas. Os nós internos correspondem a operadores, enquanto os nós terminais representam variáveis ou constantes. Por exemplo, a expressão $\widehat f(x_1,x_2)=2{,}5x_1+\sqrt{x_2}$ pode ser representada por uma árvore cuja raiz é a soma, com uma multiplicação no ramo esquerdo e uma raiz quadrada no ramo direito. Se cada ocorrência de operador, variável ou constante possuir peso unitário, essa árvore apresenta complexidade igual a seis: três operadores e três nós terminais.
+
+De modo geral, a complexidade pode ser expressa por
+\begin{equation}
+\label{eq:sr_complexidade}
+\kappa(\widehat f)=\sum_{v\in\mathcal{T}(\widehat f)}w(v),
+\end{equation}
+em que $\mathcal{T}(\widehat f)$ é o conjunto de nós da árvore e $w(v)$ o peso atribuído a cada nó. Essa formulação permite ponderar operações de maneira distinta, caso se deseje atribuir maior custo a determinados operadores. Adicionalmente, limites de tamanho e profundidade restringem a construção de árvores excessivamente grandes. A complexidade assim definida é uma medida estrutural e não equivale, necessariamente, à facilidade de interpretar financeiramente uma expressão: uma fórmula curta pode apresentar comportamento inadequado, enquanto uma expressão mais extensa pode preservar propriedades analíticas importantes \cite{cranmer2023pysr}.
+
+\subsection{Busca evolutiva e seleção por torneio}
+\label{subsec:sr_busca_evolutiva}
+
+A biblioteca PySR fornece uma interface em Python para o mecanismo de regressão simbólica implementado em Julia pela biblioteca \texttt{SymbolicRegression.jl} \cite{pysr_repositorio}. Seu procedimento de busca utiliza uma estratégia evolutiva com múltiplas populações de expressões candidatas. Cada população reúne indivíduos representados por árvores matemáticas que são avaliadas e modificadas sucessivamente, de modo a explorar diferentes regiões do espaço de expressões. O uso de múltiplas populações favorece a manutenção de alternativas estruturais durante a busca e admite a migração de indivíduos entre populações \cite{cranmer2023pysr}.
+
+Um dos mecanismos de seleção utilizados é o \textit{torneio}. Em vez de comparar obrigatoriamente todos os indivíduos de uma população a cada reprodução, o algoritmo seleciona uma amostra de candidatos e os ordena de acordo com um custo de avaliação. Os indivíduos com melhor desempenho nessa amostra apresentam maior probabilidade de serem escolhidos como progenitores. Os parâmetros \texttt{tournament\_selection\_n} e \texttt{tournament\_selection\_p} controlam, respectivamente, o número de participantes e a preferência probabilística pelos mais bem classificados. Em uma forma de seleção por posições, a probabilidade atribuída ao indivíduo de ordem $k$ decresce proporcionalmente a
+\begin{equation}
+\label{eq:sr_torneio}
+P_k\propto p(1-p)^{k-1},\qquad k=1,2,\ldots,
+\end{equation}
+com $p$ representando o parâmetro de preferência e $k=1$ indicando o primeiro colocado. Assim, a seleção favorece candidatos com menor custo, mas não elimina completamente a possibilidade de escolha de alternativas inferiores, preservando diversidade para a exploração evolutiva.
+
+Após a escolha dos progenitores, são aplicadas operações que alteram as árvores simbólicas. Entre as mutações possíveis estão a perturbação de constantes numéricas, a substituição de operadores, a inserção ou remoção de nós e a modificação de subárvores. O \textit{crossover}, por sua vez, permite trocar subárvores entre expressões progenitoras, produzindo novas combinações. Essas operações não correspondem à diferenciação ou à manipulação algébrica de uma fórmula conhecida: elas modificam a estrutura candidata e permitem investigar formas funcionais distintas. Os novos indivíduos são então avaliados e podem substituir membros antigos da população, em um procedimento de evolução regularizada que também considera a idade dos indivíduos \cite{cranmer2023pysr}.
+
+A busca não depende exclusivamente de alterações discretas na estrutura. Em etapas apropriadas, a biblioteca pode simplificar expressões e realizar a otimização numérica de suas constantes, por métodos como BFGS ou Nelder--Mead, conforme a configuração. Dessa maneira, a evolução investiga a organização dos operadores e variáveis, enquanto a otimização local ajusta constantes de uma estrutura já proposta. A combinação entre evolução, simplificação e otimização constitui uma característica importante do PySR, pois permite aperfeiçoar uma expressão sem exigir que cada alteração de um coeficiente seja obtida apenas por mutação aleatória \cite{cranmer2023pysr}.
+
+\subsection{Função de perda, aptidão e controle da complexidade}
+\label{subsec:sr_aptidao}
+
+Para avaliar uma expressão candidata é necessário estabelecer uma medida de discrepância entre suas previsões e os valores observados. Em problemas de regressão, uma possibilidade usual é o erro quadrático médio,
+\begin{equation}
+\label{eq:sr_mse}
+\mathcal{L}_{\mathrm{MSE}}(\widehat f)=
+\frac{1}{n}\sum_{i=1}^{n}\left[y_i-\widehat f(\boldsymbol{x}_i)\right]^2.
+\end{equation}
+Um valor menor indica maior proximidade numérica no conjunto avaliado, mas não assegura simplicidade, validade fora da amostra ou consistência com as propriedades do fenômeno estudado. Além disso, expressões que produzam resultados não finitos ou operações inválidas podem receber custos desfavoráveis e deixar de ser competitivas na busca.
+
+Na literatura de algoritmos evolutivos, o termo \textit{aptidão} (\textit{fitness}) designa, de maneira geral, o critério pelo qual indivíduos são comparados para fins de seleção. No PySR, entretanto, convém distinguir três quantidades: a \textit{loss}, que mede o erro ou a função de perda definida pelo usuário; o custo ajustado empregado em mecanismos da busca, que pode incorporar preferências de complexidade; e o \textit{score} calculado para comparar expressões do conjunto final. Essas quantidades estão relacionadas, mas não são sinônimas.
+
+O controle da complexidade pode ocorrer por limites estruturais e por mecanismos de parcimônia. Em termos conceituais, uma função objetivo regularizada pode ser representada por
+\begin{equation}
+\label{eq:sr_parcimonia}
+\mathcal{J}(\widehat f)=\mathcal{L}(\widehat f)
++\lambda\,\kappa(\widehat f),
+\end{equation}
+em que $\lambda\geq0$ indica a intensidade da penalização estrutural. Essa equação representa o princípio geral de parcimônia, não uma afirmação de que toda execução do PySR utilize necessariamente um coeficiente $\lambda$ positivo. A implementação também dispõe de mecanismos adaptativos que consideram a frequência de expressões em diferentes níveis de complexidade, desencorajando a concentração da busca em um único tamanho de árvore. A definição dessas preferências depende dos parâmetros e da versão utilizada.
+
+A aceitação de novas expressões pode envolver ainda um mecanismo de \textit{simulated annealing}. Nesse procedimento, propostas que reduzam o custo são favorecidas, ao passo que determinadas modificações desfavoráveis podem ser aceitas probabilisticamente, sobretudo quando a temperatura de exploração é mais elevada. Isso permite superar alterações intermediárias que não melhoram imediatamente o ajuste, mas que podem conduzir a estruturas mais adequadas em etapas posteriores.  O mecanismo de seleção, portanto, combina exploração de estruturas alternativas com preferência progressiva por soluções de menor custo \cite{cranmer2023pysr}.
+
+\subsection{Conjunto de melhores expressões e seleção do modelo}
+\label{subsec:sr_hall_of_fame}
+
+Durante a evolução, o algoritmo mantém um registro das melhores expressões identificadas em diferentes níveis de complexidade, frequentemente denominado \textit{hall of fame}. Nesse registro, uma nova expressão pode substituir outra de complexidade equivalente quando apresenta perda inferior. A partir dessas candidatas, são identificadas soluções não dominadas na relação entre erro e complexidade, formando uma fronteira de Pareto. Uma expressão é dominada quando existe outra que apresenta complexidade não maior e erro não superior, com melhoria em pelo menos um desses critérios. Assim, o conjunto retornado não representa necessariamente uma lista de todas as árvores produzidas pela evolução, mas uma seleção de alternativas relevantes para diferentes compromissos entre simplicidade e ajuste.
+
+Na interface Python, a tabela \texttt{equations\_} apresenta, entre outros elementos, as expressões, suas complexidades, os valores de perda e os escores de seleção. Para duas soluções consecutivas na ordenação por complexidade, com perdas positivas $\mathcal L_{i-1}$ e $\mathcal L_i$ e complexidades $\kappa_{i-1}$ e $\kappa_i$, o escore pode ser escrito como
+\begin{equation}
+\label{eq:sr_score}
+\operatorname{score}_i=
+-\frac{\ln(\mathcal L_i/\mathcal L_{i-1})}
+{\kappa_i-\kappa_{i-1}}.
+\end{equation}
+Esse valor quantifica a redução relativa da perda, em escala logarítmica, por unidade adicional de complexidade. Um escore elevado indica que o aumento estrutural foi acompanhado de ganho proporcionalmente expressivo no ajuste; por outro lado, uma expressão mais complexa pode apresentar escore reduzido quando sua melhoria de precisão é pequena. Trata-se de um critério de comparação entre soluções já encontradas, distinto do custo empregado nos torneios evolutivos.
+
+A seleção automática do PySR pode seguir diferentes critérios. A configuração \texttt{model\_selection="accuracy"} privilegia a menor perda; \texttt{model\_selection="score"} privilegia o maior escore; e \texttt{model\_selection="best"} seleciona o maior escore entre as expressões cuja perda não excede 1,5 vez a menor perda registrada. Desse modo, a expressão selecionada automaticamente não é necessariamente a de maior complexidade nem a que apresenta menor erro em um conjunto de extrapolação. Essa distinção é relevante para interpretar os resultados experimentais, nos quais diferentes expressões podem ser comparadas independentemente da escolha automática realizada pela biblioteca.
+
+\subsection{Interpretabilidade matemática e financeira}
+\label{subsec:sr_interpretabilidade}
+
+A disponibilidade de expressões explícitas favorece análises que não se limitam à previsão numérica. Quando uma solução é expressa por operadores e funções conhecidas, torna-se possível examinar seus termos, calcular derivadas, obter expansões locais e identificar condições de domínio. Entretanto, a forma explícita, isoladamente, não garante interpretabilidade substantiva: expressões extensas, composições de funções especiais ou operações que deixam de estar definidas em parte do domínio podem dificultar a atribuição de significado matemático ou financeiro.
+
+Neste trabalho, as expansões de Taylor e Puiseux da fórmula de Black--Scholes constituem referências analíticas para interpretar os termos e coeficientes das expressões identificadas. A comparação com essas expansões permite investigar a reprodução aproximada de características locais, sem pressupor que a regressão simbólica deva recuperar exatamente a forma funcional original. Além disso, as derivadas das expressões oferecem medidas associadas às sensibilidades financeiras, enquanto os limites de preço, as condições de monotonicidade e a convexidade permitem examinar sua consistência econômica. Tais propriedades precisam ser verificadas explicitamente: um erro reduzido de precificação não assegura, por si só, que uma expressão preserve as sensibilidades ou as restrições financeiras de Black--Scholes.
+
+Dessa forma, a regressão simbólica é considerada neste estudo tanto como procedimento de aproximação orientado a dados quanto como fonte de expressões passíveis de investigação analítica. A busca evolutiva produz alternativas matemáticas; o conjunto de soluções preserva diferentes compromissos entre complexidade e ajuste; e a análise posterior de coeficientes, derivadas e domínios permite discutir o alcance e as limitações de sua interpretabilidade no contexto da precificação de opções.

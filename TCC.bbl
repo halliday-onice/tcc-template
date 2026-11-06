@@ -58,15 +58,20 @@ Dispon{\'\i}vel em: \url{https://dlmf.nist.gov/7.6}.}
 \textbf{Archive of Formal Proofs}, 2021.
 \url{https://isa-afp.org/entries/Puiseux_Series.html}, Formal proof development.}
 
-\bibitem{devlin2023ai}
-\abntrefinfo{Devlin, Cousins e Amitrano}{DEVLIN; COUSINS; AMITRANO}{2023}
-{DEVLIN, H.; COUSINS, R.; AMITRANO, A. \textbf{A day in the life of AI}. 2023.
-Dispon{\'\i}vel em: \url{https://www.theguardian.com/technology/ng-interactive/2023/oct/25/a-day-in-the-life-of-ai}. Acesso em: 9 out. 2026.}
-
 \bibitem{makke2024interpretable}
 \abntrefinfo{Makke e Chawla}{MAKKE; CHAWLA}{2024}
 {MAKKE, N.; CHAWLA, S. Interpretable scientific discovery with symbolic regression: a review.
 \textbf{Artificial Intelligence Review}, Springer, v.~57, n.~2, 2024.}
+
+\bibitem{cranmer2023pysr}
+\abntrefinfo{Cranmer}{CRANMER}{2023}
+{CRANMER, M. \textbf{Interpretable Machine Learning for Science with {PySR} and {SymbolicRegression.jl}}. 2023. ArXiv:2305.01582.
+Dispon{\'\i}vel em: \url{https://arxiv.org/abs/2305.01582}. Acesso em: 6 nov. 2026.}
+
+\bibitem{pysr_repositorio}
+\abntrefinfo{Cranmer et al.}{CRANMER et al.}{}
+{CRANMER, M. et al. \textbf{{PySR}: Symbolic Regression in Python and Julia}. GitHub.
+Dispon{\'\i}vel em: \url{https://github.com/astroautomata/PySR}. Acesso em: 6 nov. 2026.}
 
 \bibitem{brenndoerfer2025blackscholes}
 \abntrefinfo{Brenndoerfer}{BRENNDOERFER}{2025}
